@@ -57,7 +57,7 @@ main {
   height: 14em;
   margin: 0em 2em;
   background: #000; }
-  html .separator {
+  html.dark .separator {
     background: #fff; }
 
 .left-side {
