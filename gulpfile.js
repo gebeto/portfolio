@@ -30,7 +30,7 @@ function defaultTask(cb) {
 exports.build = series(defaultTask);
 exports.dev = defaultTask;
 exports.serve = () => {
-	watch(["styles/*.scss", "markup/*.html"], defaultTask);
+	watch(["styles/**/*.scss", "markup/**/*.html"], defaultTask);
 };
 
 exports.default = defaultTask;
