@@ -1,0 +1,13 @@
+{% macro card(project) %}
+<div class="card color-{{ project.type }}">
+	<h3 class="card-header">
+		{{ project.title }}
+	</h3>
+	<div class="card-body">
+		{{ project.description }}
+	</div>
+	<div class="card-footer">
+		{{ project.tags | join(' / ') }}
+	</div>
+</div>
+{% endmacro %}

@@ -1,0 +1,17 @@
+{% import "macros.html" as macros %}
+{% import "data.html" as data %}
+
+<main class="column">
+	<section>
+		<h1 id="projects">
+			<span class="ttitle">
+				- projects -
+			</span>
+		</h1>
+		<div class="card-grid">
+			{% for project in data.projects %}
+				{{ macros.card(project) }}
+			{% endfor %}
+		</div>
+	</section>
+</main>

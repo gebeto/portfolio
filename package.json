@@ -1,0 +1,28 @@
+{
+  "name": "new-3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp build",
+    "serve": "gulp serve",
+    "dev": "gulp dev"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "gulp": "^4.0.2"
+  },
+  "devDependencies": {
+    "gulp-clean": "^0.4.0",
+    "gulp-handlebars": "^5.0.2",
+    "gulp-nunjucks": "^5.0.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-scss": "^1.4.0",
+    "handlebars": "^4.3.4",
+    "node-sass": "^4.12.0",
+    "nunjucks": "^3.2.0"
+  }
+}

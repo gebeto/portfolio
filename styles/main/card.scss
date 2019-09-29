@@ -1,0 +1,94 @@
+.card-grid {
+	max-width: 1000px;
+	margin: 0 auto;
+
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);;
+	grid-gap: 2em;
+
+	@media (max-width: 1030px) {
+		max-width: 800px;
+		grid-template-columns: repeat(2, 1fr);
+		grid-gap: 1.8em;
+	}
+
+	@media (max-width: 830px) {
+		margin: 0 auto;
+		max-width: 500px;
+		width: calc(100% - 2em);
+		grid-template-columns: repeat(1, 1fr);;
+		grid-gap: 5vw;
+		grid-gap: 1.5em;
+	}
+}
+
+
+.card {
+	box-sizing: border-box;
+	box-shadow: 9px 9px 0px 0px #cc88cc;
+	border: 1px solid #000;
+	transition: 0.2s transform, 0.2s box-shadow;
+	
+	&:last-child {
+		margin-top: 0em;
+	}
+	
+	&:hover {
+		transform: translate(-3px, -3px);
+	}
+	
+	&-header, &-body {
+		padding: 1em;
+		box-sizing: border-box;
+	}
+
+	&-footer {
+		padding: 0.4em 1em;
+		box-sizing: border-box;
+		border-top: 1px solid #eee;
+		font-size: 0.7em;
+		color: #999;
+	}
+	
+	&-header {
+		border-bottom: 1px solid #eee;
+	}
+	
+	&-body {
+		font-size: 0.8em;
+	}
+}
+
+@mixin project-color($type, $color) {
+	.color-#{$type} {
+		box-shadow: 9px 9px 0px 0px $color;
+		border-color: $color;
+		
+		&:hover {
+			box-shadow: 12px 12px 0px 0px $color;
+		}
+
+		html.dark & {
+			box-shadow: 9px 9px 0px 0px darken($color, 10);
+			border-color: darken($color, 10);
+
+			&:hover {
+				box-shadow: 12px 12px 0px 0px darken($color, 10);
+			}
+		}
+	}
+}
+
+// @include project-color(1, #cc88cc);
+// @include project-color(2, #00aadd);
+// @include project-color(3, #cc8800);
+
+$types: (
+	npm_package: #CB3837,
+	pip_package: #006DAD,
+	web: #CC8800,
+);
+
+@each $key, $value in $types {
+	@include project-color($key, $value);
+}

@@ -1,0 +1,13 @@
+@import "card.scss";
+
+main {
+	display: flex;
+	padding-bottom: 4em;
+	border-top: 1px solid #eee;
+	
+	h1 {
+		margin-top: 3em;
+		margin-bottom: 3em;
+		text-align: center;
+	}
+}
