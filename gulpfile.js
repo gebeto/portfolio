@@ -39,7 +39,8 @@ exports.build = series(defaultTask);
 exports.dev = defaultTask;
 exports.serve = () => {
 	serve();
-	watch(["styles/**/*.scss", "markup/**/*.html"], defaultTask);
+	watch("markup/**/*.html", buildMarkup).on('change', browserSync.reload);
+	watch("styles/**/*.scss", buildStyles).on('change', browserSync.reload);
 };
 
 exports.default = defaultTask;

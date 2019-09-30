@@ -135,13 +135,23 @@ footer {
 
 .card {
   box-sizing: border-box;
-  box-shadow: 9px 9px 0px 0px #cc88cc;
-  border: 1px solid #000;
+  transform: translate(4px, 4px);
+  background: #cc88cc;
   transition: 0.2s transform, 0.2s box-shadow; }
   .card:last-child {
     margin-top: 0em; }
+  .card-container {
+    transition-duration: 0.2s;
+    border: 1px solid #000;
+    transform: translate(-8px, -8px);
+    background: #fff; }
+    html.dark .card-container {
+      background: #111; }
   .card:hover {
-    transform: translate(-3px, -3px); }
+    cursor: pointer;
+    transform: translate(6px, 6px); }
+  .card:hover .card-container {
+    transform: translate(-11px, -11px); }
   .card-header, .card-body {
     padding: 1em;
     box-sizing: border-box; }
@@ -157,37 +167,31 @@ footer {
     font-size: 0.8em; }
 
 .color-npm_package {
-  box-shadow: 9px 9px 0px 0px #CB3837;
-  border-color: #CB3837; }
-  .color-npm_package:hover {
-    box-shadow: 12px 12px 0px 0px #CB3837; }
+  background: #CB3837; }
+  .color-npm_package .card-container {
+    border-color: #CB3837; }
   html.dark .color-npm_package {
-    box-shadow: 9px 9px 0px 0px #a42c2b;
-    border-color: #a42c2b; }
-    html.dark .color-npm_package:hover {
-      box-shadow: 12px 12px 0px 0px #a42c2b; }
+    background: #a42c2b; }
+    html.dark .color-npm_package .card-container {
+      border-color: #a42c2b; }
 
 .color-pip_package {
-  box-shadow: 9px 9px 0px 0px #006DAD;
-  border-color: #006DAD; }
-  .color-pip_package:hover {
-    box-shadow: 12px 12px 0px 0px #006DAD; }
+  background: #006DAD; }
+  .color-pip_package .card-container {
+    border-color: #006DAD; }
   html.dark .color-pip_package {
-    box-shadow: 9px 9px 0px 0px #004d7a;
-    border-color: #004d7a; }
-    html.dark .color-pip_package:hover {
-      box-shadow: 12px 12px 0px 0px #004d7a; }
+    background: #004d7a; }
+    html.dark .color-pip_package .card-container {
+      border-color: #004d7a; }
 
 .color-web {
-  box-shadow: 9px 9px 0px 0px #CC8800;
-  border-color: #CC8800; }
-  .color-web:hover {
-    box-shadow: 12px 12px 0px 0px #CC8800; }
+  background: #CC8800; }
+  .color-web .card-container {
+    border-color: #CC8800; }
   html.dark .color-web {
-    box-shadow: 9px 9px 0px 0px #996600;
-    border-color: #996600; }
-    html.dark .color-web:hover {
-      box-shadow: 12px 12px 0px 0px #996600; }
+    background: #996600; }
+    html.dark .color-web .card-container {
+      border-color: #996600; }
 
 main {
   display: flex;

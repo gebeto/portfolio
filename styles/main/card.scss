@@ -25,16 +25,33 @@
 
 .card {
 	box-sizing: border-box;
-	box-shadow: 9px 9px 0px 0px #cc88cc;
-	border: 1px solid #000;
+ 	transform: translate(4px, 4px);
+	background: #cc88cc;
+	// border: 1px solid #000;
 	transition: 0.2s transform, 0.2s box-shadow;
 	
 	&:last-child {
 		margin-top: 0em;
 	}
 	
+	&-container {
+		transition-duration: 0.2s;
+		border: 1px solid #000;
+		transform: translate(-8px, -8px);
+		background: #fff;
+
+		html.dark & {
+			background: #111;
+		}
+	}
+
 	&:hover {
-		transform: translate(-3px, -3px);
+		cursor: pointer;
+		transform: translate(6px, 6px);
+	}
+
+	&:hover &-container {
+		transform: translate(-11px, -11px);
 	}
 	
 	&-header, &-body {
@@ -61,19 +78,16 @@
 
 @mixin project-color($type, $color) {
 	.color-#{$type} {
-		box-shadow: 9px 9px 0px 0px $color;
-		border-color: $color;
-		
-		&:hover {
-			box-shadow: 12px 12px 0px 0px $color;
+		background: $color;
+
+		.card-container {
+			border-color: $color;
 		}
 
 		html.dark & {
-			box-shadow: 9px 9px 0px 0px darken($color, 10);
-			border-color: darken($color, 10);
-
-			&:hover {
-				box-shadow: 12px 12px 0px 0px darken($color, 10);
+			background: darken($color, 10);
+			.card-container {
+				border-color: darken($color, 10);
 			}
 		}
 	}
