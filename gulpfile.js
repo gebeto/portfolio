@@ -1,4 +1,5 @@
 const { series, parallel, watch, src, dest } = require('gulp');
+const browserSync = require('browser-sync').create();
 
 const clean = require('gulp-clean');
 
@@ -6,6 +7,13 @@ const rename = require('gulp-rename');
 const nunjucks = require('gulp-nunjucks');
 const sass = require('gulp-sass');
 sass.compiler = require('node-sass')
+
+function serve() {
+    browserSync.init({
+		server: './',
+		port: 5000
+	});
+}
 
 function buildStyles() {
 	return src('styles/index.scss')
@@ -30,6 +38,7 @@ function defaultTask(cb) {
 exports.build = series(defaultTask);
 exports.dev = defaultTask;
 exports.serve = () => {
+	serve();
 	watch(["styles/**/*.scss", "markup/**/*.html"], defaultTask);
 };
 
