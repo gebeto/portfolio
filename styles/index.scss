@@ -1,5 +1,4 @@
 @import "reset";
-@import "header";
 
 html {
 	font-family: 'Roboto Mono', monospace;
@@ -46,22 +45,7 @@ body {
 	}
 }
 
-footer {
-	display: flex;
-	flex: 1;
-	justify-content: center;
-	align-items: center;
-	min-height: 10em;
-	border-top: 1px solid #eee;
-	background: #fff;
 
-	html.dark & {
-		border-color: #222;
-		background: #111;
-		color: #fff;
-	}
-}
-
-
-
+@import "header";
 @import "main/index";
+@import "footer";
