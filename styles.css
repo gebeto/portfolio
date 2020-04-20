@@ -16,7 +16,7 @@ li {
   margin: 0; }
 
 html {
-  font-family: 'Roboto Mono', monospace; }
+  font-family: 'Sen', 'Roboto Mono', monospace; }
   html.dark {
     background: #111;
     color: #fff; }

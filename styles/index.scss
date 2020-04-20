@@ -1,7 +1,10 @@
 @import "reset";
 
 html {
-	font-family: 'Roboto Mono', monospace;
+	font-family: 'Sen', 'Roboto Mono', monospace;
+
+	// line-height: 1.6;
+	// color: #003B4A;
 
 	&.dark {
 		background: #111;
