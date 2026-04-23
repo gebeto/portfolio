@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Measuring cold starts the honest way — Yaroslav Nychkalo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&family=EB+Garamond:ital,wght@0,400..700;1,400..700&family=Lora:ital,wght@0,400..700;1,400..700&family=Cormorant+Garamond:ital,wght@0,400..700;1,400..700&display=swap" />
+<link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div><span class="dot"></span>Yaroslav Nychkalo</div>
+    <div class="tb-nav">
+      <a href="Portfolio.html#projects">Projects</a>
+      <a href="Portfolio.html#writing">Writing</a>
+      <a href="Blog.html">Blog</a>
+      <a href="Portfolio.html#repos">Open source</a>
+      <a href="Portfolio.html#contact">Contact</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <a href="Blog.html" class="back-link">← All posts</a>
+
+  <!-- Post header -->
+  <header class="post-header">
+    <div class="kicker-row">
+      <span>Apr 12, 2026</span>
+      <span class="sep">·</span>
+      <span>7 min read</span>
+      <span class="sep">·</span>
+      <span>Infra</span>
+    </div>
+    <h1>Measuring cold starts the honest way</h1>
+    <p class="lede">
+      P99 latency on serverless platforms is a beautiful lie. It hides the number that actually matters — the one your first user hits at 7:03 on a Monday morning. Here's the small harness I use to find it, and why it changed how I size functions.
+    </p>
+    <div class="byline">
+      <div class="avatar-sm"><img src="assets/avatar.jpg" alt="" /></div>
+      <span>by <b>Yaroslav Nychkalo</b></span>
+    </div>
+  </header>
+
+  <!-- Post body -->
+  <article class="post-body">
+
+    <p>
+      Every team I've worked with has, at some point, looked at a dashboard showing a flat 40 ms P99 line and concluded that their serverless setup is fine. It isn't. That line is the shape of your <em>warm</em> traffic — the requests that found an instance already running, already connected to the database, already happy. It tells you almost nothing about the experience of the first user to land on a quiet endpoint after it's been idle for fifteen minutes.
+    </p>
+
+    <p>
+      The honest measurement of a cold start isn't a percentile — it's a <strong>cohort</strong>. Specifically: the distribution of latencies observed on requests where no warm instance was available at the moment of dispatch. Most observability tooling won't give you this cohort directly, because the platform doesn't expose it. You have to synthesize it.
+    </p>
+
+    <h2>The harness</h2>
+
+    <p>
+      For the last few months I've been running the same tiny harness against every serverless endpoint I ship. It's about eighty lines of Go and does exactly one thing: it waits long enough to guarantee a cold start, fires a single request, records the wall-clock latency, and waits again. No parallelism, no P99, no averaging. Just a stream of honest numbers.
+    </p>
+
+    <pre><code>for i := 0; i &lt; n; i++ {
+    time.Sleep(coldWindow)   // longer than the platform's keep-alive
+    start := time.Now()
+    _, err := http.Get(url)
+    latency := time.Since(start)
+    record(latency, err)
+}</code></pre>
+
+    <p>
+      The only clever bit is <code>coldWindow</code>. For AWS Lambda I use eighteen minutes. For Cloud Run, twelve. For Vercel's Edge Functions, about five. These numbers aren't in the docs — I found them by running the harness at different intervals until the latency distribution collapsed into two obvious modes.
+    </p>
+
+    <div class="pull">
+      The honest measurement of a cold start isn't a percentile — it's a cohort.
+    </div>
+
+    <h2>What the numbers looked like</h2>
+
+    <p>
+      On the routing service I'm rewriting at SPSoft, the warm P99 was 38 ms. The cold-start cohort — what the first user of the morning actually experienced — was a median of <strong>1.9 seconds</strong>, with a long tail out to four. That's a fiftyfold gap that no dashboard was showing us.
+    </p>
+
+    <p>
+      Three things followed from knowing that number:
+    </p>
+
+    <ol>
+      <li>We stopped apologizing for the 40 ms P99 and started designing around the 1.9 s median cold.</li>
+      <li>We moved the hottest endpoints to a small container that never sleeps, and kept the cheap ones on Lambda with a clear SLO for first-hit latency.</li>
+      <li>We added a synthetic prober that fires a request every ten minutes to the three endpoints customers land on most often. Not because the harness wasn't working — but because we now cared enough to keep them warm.</li>
+    </ol>
+
+    <h2>Why P99 lies</h2>
+
+    <p>
+      P99 is a population statistic. Cold starts are, by definition, a minority event — often less than half a percent of your traffic, because most real traffic hits warm instances. The cold requests vanish into the tail of the distribution, and then the tail gets trimmed because "we don't care about the worst 1%."
+    </p>
+
+    <blockquote>
+      <p>The user doesn't experience percentiles. They experience the single request they made.</p>
+    </blockquote>
+
+    <p>
+      If your traffic is bursty — and everyone's traffic is bursty — a significant fraction of <em>real users</em> are drawn from that bottom 1%. They're the ones opening your app first thing in the morning, or after lunch, or the moment a marketing email goes out. Treating them as statistical noise is a choice. It's just not a choice most teams are making deliberately.
+    </p>
+
+    <h2>What to do with the number</h2>
+
+    <p>
+      Once you have an honest cold-start median, a few things get easier:
+    </p>
+
+    <ul>
+      <li><strong>Sizing decisions.</strong> If cold is 2 seconds and your SLA is 500 ms, you need warm instances. No amount of clever code paths fixes two orders of magnitude.</li>
+      <li><strong>Runtime choices.</strong> A Go binary on Lambda is a very different number than a Node process with thirty megabytes of dependencies. The harness lets you make the comparison without ceremony.</li>
+      <li><strong>Product conversations.</strong> "The first request of the morning takes two seconds" is a sentence a product manager can reason about. "P99 is 40 ms but P99.9 is 1.8 seconds" is a sentence that gets nodded at and forgotten.</li>
+    </ul>
+
+    <hr>
+
+    <p>
+      The code is in <a href="https://github.com/gebeto/cold-honest">gebeto/cold-honest</a> if you want to steal it. It's small enough that you should probably rewrite it anyway — the point isn't the tool, it's asking a different question.
+    </p>
+
+    <p>
+      The next time someone shows you a 40 ms P99 and calls it a day, ask them what the first user of the morning saw. If they don't know, neither do you.
+    </p>
+
+    <div class="post-tags-foot">
+      <span>#infra</span>
+      <span>#performance</span>
+    </div>
+  </article>
+
+  <!-- Prev / next -->
+  <nav class="post-nav">
+    <a class="disabled">
+      <span class="label">← Previous</span>
+      <span class="title">You're at the newest post</span>
+    </a>
+    <a href="Post.html" class="next">
+      <span class="label">Next →</span>
+      <span class="title">A small, pleasant deploy pipeline in 80 lines of YAML</span>
+    </a>
+  </nav>
+
+  <!-- Footer -->
+  <footer>
+    <div>© 2026 Yaroslav Nychkalo. Built by hand.</div>
+    <div><a href="Portfolio.html">Portfolio</a> · <a href="Blog.html">Blog</a> · <a href="#">RSS</a></div>
+  </footer>
+
+</div>
+
+<script>
+  // ---------- Theme toggle (shared) ----------
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('themeToggle');
+  function applyTheme(mode) {
+    if (mode === 'dark') root.setAttribute('data-theme', 'dark');
+    else root.removeAttribute('data-theme');
+    themeBtn.setAttribute('aria-label', mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+  let theme = 'light';
+  try { theme = localStorage.getItem('theme') || 'light'; } catch(e){}
+  applyTheme(theme);
+  themeBtn.addEventListener('click', () => {
+    theme = theme === 'dark' ? 'light' : 'dark';
+    applyTheme(theme);
+    try { localStorage.setItem('theme', theme); } catch(e){}
+  });
+</script>
+</body>
+</html>

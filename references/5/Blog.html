@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Blog — Yaroslav Nychkalo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&family=EB+Garamond:ital,wght@0,400..700;1,400..700&family=Lora:ital,wght@0,400..700;1,400..700&family=Cormorant+Garamond:ital,wght@0,400..700;1,400..700&display=swap" />
+<link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div><span class="dot"></span>Yaroslav Nychkalo</div>
+    <div class="tb-nav">
+      <a href="Portfolio.html#projects">Projects</a>
+      <a href="Portfolio.html#writing">Writing</a>
+      <a href="Blog.html">Blog</a>
+      <a href="Portfolio.html#repos">Open source</a>
+      <a href="Portfolio.html#contact">Contact</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <a href="Portfolio.html" class="back-link">← Back to portfolio</a>
+
+  <!-- Page title -->
+  <header class="page-title">
+    <h1>Blog</h1>
+    <p class="sub">Short notes and longer essays on shipping software quietly — infrastructure, product engineering, and the occasional detour into books and process.</p>
+  </header>
+
+  <!-- Tools -->
+  <div class="blog-tools">
+    <div class="blog-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="search" type="search" placeholder="Search posts…" aria-label="Search posts" />
+    </div>
+    <div class="blog-count" id="count"></div>
+  </div>
+
+  <!-- Blog list -->
+  <div class="blog-list" id="blogList">
+    <!-- rendered by JS -->
+  </div>
+  <div class="no-results" id="noResults" style="display:none;">No posts match that search.</div>
+
+  <!-- Footer -->
+  <footer>
+    <div>© 2026 Yaroslav Nychkalo. Built by hand.</div>
+    <div><a href="Portfolio.html">Portfolio</a> · <a href="#">RSS</a> · <a href="#">Colophon</a></div>
+  </footer>
+
+</div>
+
+<script>
+  // ---------- Theme toggle (shared) ----------
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('themeToggle');
+  function applyTheme(mode) {
+    if (mode === 'dark') root.setAttribute('data-theme', 'dark');
+    else root.removeAttribute('data-theme');
+    themeBtn.setAttribute('aria-label', mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+  let theme = 'light';
+  try { theme = localStorage.getItem('theme') || 'light'; } catch(e){}
+  applyTheme(theme);
+  themeBtn.addEventListener('click', () => {
+    theme = theme === 'dark' ? 'light' : 'dark';
+    applyTheme(theme);
+    try { localStorage.setItem('theme', theme); } catch(e){}
+  });
+
+  // ---------- Blog posts ----------
+  const POSTS = [
+    { id: 'measuring-cold-starts',    title: 'Measuring cold starts the honest way',                       excerpt: 'Why P99 lies to you about serverless, and a tiny harness that tells the truth.',                                date: '2026-04-12', read: 7, tags: ['infra','performance'] },
+    { id: 'pleasant-deploy-pipeline', title: 'A small, pleasant deploy pipeline in 80 lines of YAML',      excerpt: 'Less magic, fewer actions, same outcome — a pipeline you can read on one screen.',                              date: '2026-03-28', read: 9, tags: ['infra','ci'] },
+    { id: 'why-i-stopped-redux',      title: 'Why I stopped reaching for Redux first',                     excerpt: 'Most apps I\u2019ve shipped didn\u2019t need it. What I reach for now, and when state libraries still earn their keep.',   date: '2026-03-04', read: 6, tags: ['frontend','react'] },
+    { id: 'postgres-rls-plainly',     title: 'Postgres row-level security, plainly explained',             excerpt: 'A walkthrough of RLS policies for people who just want multi-tenant isolation without the academic detour.',     date: '2026-02-19', read: 12, tags: ['backend','postgres'] },
+    { id: 'leaving-things-unfinished',title: 'On shipping: the art of leaving things unfinished',          excerpt: 'The features you don\u2019t build are also a design decision. Notes on scope from a decade of release notes.',        date: '2026-02-02', read: 5, tags: ['process','essay'] },
+    { id: 'debugging-as-conversation',title: 'Debugging is a conversation, not a search',                  excerpt: 'How I ask a failing system questions, and why the answers are almost never where I first looked.',              date: '2026-01-20', read: 8, tags: ['process','essay'] },
+    { id: 'rewriting-old-service',    title: 'Notes from rewriting a service I wrote five years ago',      excerpt: 'What I kept, what I threw out, and the small humiliations of reading your own old code.',                        date: '2025-12-15', read: 10, tags: ['backend','essay'] },
+    { id: 'reading-list-backend',     title: 'A reading list for back-end engineers who want to write better', excerpt: 'Eight books — only two about programming — that made my pull-request descriptions worth reading.',           date: '2025-11-30', read: 6, tags: ['books','essay'] },
+    { id: 'quiet-k8s',                title: 'Making a Kubernetes cluster boring on purpose',              excerpt: 'A tour through kube-quiet: the Helm charts, defaults, and alerts I use so I never have to think about ops on a Friday.', date: '2025-10-22', read: 11, tags: ['infra','kubernetes'] },
+    { id: 'monorepo-worth-it',        title: 'Is the monorepo worth it? My honest 18-month update',        excerpt: 'I moved four repos into one a year and a half ago. Here\u2019s what got better, what got worse, and what I\u2019d do again.', date: '2025-09-08', read: 9, tags: ['process','tooling'] },
+    { id: 'ts-type-too-narrow',       title: 'When your TypeScript types are too clever',                  excerpt: 'A small rant against type gymnastics, and a few patterns I reach for before the conditional types come out.',    date: '2025-08-14', read: 7, tags: ['typescript','frontend'] },
+    { id: 'small-tools-essay',        title: 'On writing small tools, and why the five-hour ones are the best', excerpt: 'A short defense of the one-afternoon utility: the script you only write for yourself, and why it teaches you more than the framework of the month.', date: '2025-07-02', read: 4, tags: ['essay','tooling'] },
+    { id: 'sqlite-in-prod',           title: 'SQLite in production, one year in',                          excerpt: 'I put SQLite behind a real product. No regrets, a few surprises, and the operational playbook I wish I\u2019d had on day one.', date: '2025-05-19', read: 13, tags: ['backend','sqlite'] },
+    { id: 'naming-things-craft',      title: 'The quiet craft of naming things',                           excerpt: 'Good names don\u2019t make code clever — they make it boring in the right way. Notes from ten years of arguing with myself in pull requests.', date: '2025-03-11', read: 6, tags: ['essay','craft'] },
+    { id: 'logs-over-dashboards',     title: 'Read the logs before you draw the dashboard',                excerpt: 'Dashboards are answers. Logs are the questions. A note on where to start when a system surprises you.',          date: '2025-01-28', read: 5, tags: ['infra','process'] },
+    { id: 'feature-flags-small-team', title: 'Feature flags for teams of three',                           excerpt: 'You don\u2019t need LaunchDarkly to ship safely. A small pattern in 40 lines that has carried me through two products.', date: '2024-12-04', read: 8, tags: ['backend','process'] },
+    { id: 'boring-tech-manifesto',    title: 'A small manifesto for boring technology',                    excerpt: 'The stack I reach for by default, and why I no longer apologize for choosing the obvious option.',               date: '2024-10-17', read: 5, tags: ['essay','process'] },
+    { id: 'pr-descriptions-matter',   title: 'Your pull request description is the product',               excerpt: 'The PR body is where the code meets the future. A template I\u2019ve iterated on for years, and why every field earns its place.', date: '2024-08-23', read: 7, tags: ['process','writing'] },
+  ];
+
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function fmtDate(iso) {
+    const d = new Date(iso + 'T00:00:00');
+    return `${MONTHS[d.getMonth()]} ${String(d.getDate()).padStart(2,'0')}, ${d.getFullYear()}`;
+  }
+
+  const listEl = document.getElementById('blogList');
+  const countEl = document.getElementById('count');
+  const searchEl = document.getElementById('search');
+  const noResultsEl = document.getElementById('noResults');
+
+  function render(query = '') {
+    const q = query.trim().toLowerCase();
+    listEl.innerHTML = '';
+    let visible = 0;
+    let currentYear = null;
+
+    POSTS.forEach(post => {
+      const hay = `${post.title} ${post.excerpt} ${post.tags.join(' ')}`.toLowerCase();
+      const matches = !q || hay.includes(q);
+      if (!matches) return;
+
+      const year = post.date.slice(0, 4);
+      if (year !== currentYear) {
+        currentYear = year;
+        const yh = document.createElement('div');
+        yh.className = 'year-head';
+        yh.textContent = year;
+        listEl.appendChild(yh);
+      }
+
+      const article = document.createElement('article');
+      article.className = 'post';
+      const tagsHtml = post.tags.map(t => {
+        const m = q && t.toLowerCase().includes(q) ? ' class="match"' : '';
+        return `<span${m}>#${t}</span>`;
+      }).join('');
+      article.innerHTML = `
+        <h2 class="post-title"><a href="Post.html">${post.title}</a></h2>
+        <div class="post-meta">${fmtDate(post.date)}</div>
+        <p class="post-excerpt">${post.excerpt}</p>
+        <div class="post-foot">
+          <div class="post-tags">${tagsHtml}</div>
+          <span class="post-read">· ${post.read} min read</span>
+        </div>
+      `;
+      listEl.appendChild(article);
+      visible++;
+    });
+
+    countEl.textContent = visible === POSTS.length
+      ? `${POSTS.length} posts`
+      : `${visible} of ${POSTS.length}`;
+    noResultsEl.style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  render();
+  searchEl.addEventListener('input', (e) => render(e.target.value));
+</script>
+</body>
+</html>
