@@ -1,44 +1,54 @@
 import fs from 'fs'
 import path from 'path'
 
-type Metadata = {
+type BlogPostMetadata = {
   title: string
   publishedAt: string
   summary: string
   image?: string
 }
 
-function parseFrontmatter(fileContent: string) {
+type ProjectMetadata = {
+  title: string
+  publishedAt: string
+  summary: string
+  cardType: 'small' | 'wide'
+  image?: string
+}
+
+type Metadata = BlogPostMetadata | ProjectMetadata;
+
+function parseFrontmatter<T extends Metadata>(fileContent: string) {
   let frontmatterRegex = /---\s*([\s\S]*?)\s*---/
   let match = frontmatterRegex.exec(fileContent)
   let frontMatterBlock = match![1]
   let content = fileContent.replace(frontmatterRegex, '').trim()
   let frontMatterLines = frontMatterBlock.trim().split('\n')
-  let metadata: Partial<Metadata> = {}
+  let metadata: Partial<T> = {}
 
   frontMatterLines.forEach((line) => {
     let [key, ...valueArr] = line.split(': ')
     let value = valueArr.join(': ').trim()
     value = value.replace(/^['"](.*)['"]$/, '$1') // Remove quotes
-    metadata[key.trim() as keyof Metadata] = value
+    metadata[key.trim()] = value
   })
 
-  return { metadata: metadata as Metadata, content }
+  return { metadata: metadata as T, content }
 }
 
-function getMDXFiles(dir) {
+function getMDXFiles(dir: string) {
   return fs.readdirSync(dir).filter((file) => path.extname(file) === '.mdx')
 }
 
-function readMDXFile(filePath) {
+function readMDXFile<T extends Metadata>(filePath: string) {
   let rawContent = fs.readFileSync(filePath, 'utf-8')
-  return parseFrontmatter(rawContent)
+  return parseFrontmatter<T>(rawContent)
 }
 
-function getMDXData(dir) {
+function getMDXData<T extends Metadata>(dir: string) {
   let mdxFiles = getMDXFiles(dir)
   return mdxFiles.map((file) => {
-    let { metadata, content } = readMDXFile(path.join(dir, file))
+    let { metadata, content } = readMDXFile<T>(path.join(dir, file))
     let slug = path.basename(file, path.extname(file))
 
     return {
@@ -50,11 +60,11 @@ function getMDXData(dir) {
 }
 
 export function getBlogPosts() {
-  return getMDXData(path.join(process.cwd(), 'content', 'posts'))
+  return getMDXData<BlogPostMetadata>(path.join(process.cwd(), 'content', 'posts'))
 }
 
 export function getProjects() {
-  return getMDXData(path.join(process.cwd(), 'content', 'projects'))
+  return getMDXData<ProjectMetadata>(path.join(process.cwd(), 'content', 'projects'))
 }
 
 export function formatDate(date: string, includeRelative = false) {

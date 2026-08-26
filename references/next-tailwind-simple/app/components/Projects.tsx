@@ -4,13 +4,27 @@ import { formatDate, getBlogPosts, getProjects } from 'app/blog/utils'
 
 const SmallCard = () => {
   return (
-    <div className="max-w-sm rounded-xl overflow-hidden shadow-lg bg-white">
-      <img className="w-full" src="https://picsum.photos/300/200" alt="aui" />
-      <div className="px-3 py-2">
-        <div className="font-bold text-gray-900 text-l mb-0">The Coldest Sunset</div>
-        {/* <p className="text-gray-700 text-s">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.
-        </p> */}
+    // <div className="max-w-sm border w-full rounded-xl overflow-hidden shadow-lg bg-white">
+    //   <img className="w-full" src="https://picsum.photos/300/200" alt="aui" />
+    //   <div className="px-3 py-2">
+    //     <div className="font-bold text-gray-900 text-l mb-0">The Coldest Sunset</div>
+    //     {/* <p className="text-gray-700 text-s">
+    //       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.
+    //     </p> */}
+    //   </div>
+    // </div>
+    <div
+      className="group border relative max-w-sm overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-200 hover:shadow-lg w-full"
+    >
+      <img
+        src="https://picsum.photos/seed/picsum/300/200"
+        alt="Product"
+        className="h-48 w-full object-cover"
+      />
+      <div className="absolute inset-0 bg-black/60 p-6 opacity-0 group-hover:opacity-100">
+        <h3 className="text-lg font-semibold text-white">Product Name</h3>
+        <p className="text-white">Product description goes here.</p>
+        <div className="text-xl font-bold text-white">$29.99</div>
       </div>
     </div>
   );
@@ -18,17 +32,30 @@ const SmallCard = () => {
 
 const WideCard = () => {
   return (
-    <div className="max-w-sm w-full lg:max-w-full lg:flex col-span-2 rounded-xl overflow-hidden">
-      <div className="h-48 lg:h-auto lg:w-48 flex-none bg-cover text-center overflow-hidden" style={{backgroundImage: 'url(https://picsum.photos/200/300)'}} title="Woman holding a mug">
-      </div>
-      <div className="bg-white p-4 flex flex-col justify-between leading-normal">
-        <div className="mb-8">
-          <div className="text-gray-900 font-bold text-xl mb-2">Can coffee make you a better developer?</div>
-          <p className="text-gray-700 text-base">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.</p>
-        </div>
+    // <div className="max-w-sm border w-full lg:max-w-full lg:flex col-span-2 rounded-xl overflow-hidden">
+    //   <div className="h-48 lg:h-auto lg:w-48 flex-none bg-cover text-center overflow-hidden" style={{backgroundImage: 'url(https://picsum.photos/200/300)'}} title="Woman holding a mug">
+    //   </div>
+    //   <div className="bg-white p-4 flex flex-col justify-between leading-normal">
+    //     <div className="mb-8">
+    //       <div className="text-gray-900 font-bold text-xl mb-2">Can coffee make you a better developer?</div>
+    //       <p className="text-gray-700 text-base">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.</p>
+    //     </div>
+    //   </div>
+    // </div>
+    <div
+      className="group border relative max-w-full overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-200 hover:shadow-lg col-span-2 w-full"
+    >
+      <img
+        src="https://picsum.photos/seed/picsum/1600/1400"
+        alt="Product"
+        className="h-48 w-full object-cover"
+      />
+      <div className="absolute inset-0 bg-black/60 p-6 opacity-0 group-hover:opacity-100">
+        <h3 className="text-lg font-semibold text-white">Product Name</h3>
+        <p className="text-white">Product description goes here.</p>
+        <div className="text-xl font-bold text-white">$29.99</div>
       </div>
     </div>
-
   );
 }
 
