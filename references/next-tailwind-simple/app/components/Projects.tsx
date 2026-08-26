@@ -28,8 +28,12 @@ const SmallCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
         className="h-48 w-full object-contain object-right-bottom"
       />
       <div className="absolute inset-0 bg-black/60 p-6 transition duration-350 opacity-0 group-hover:opacity-100">
-        <h3 className="text-lg font-semibold text-white">{project.title}</h3>
-        <p className="text-white">{project.description}</p>
+        <h3 className="text-lg font-semibold text-white transition duration-350 -translate-y-1 group-hover:translate-y-0">
+          {project.title}
+        </h3>
+        <p className="text-white text-sm transition duration-350 translate-y-2 group-hover:translate-y-0">
+          {project.description}
+        </p>
         {/* <div className="text-xl font-bold text-white">$29.99</div> */}
       </div>
     </a>
@@ -73,8 +77,10 @@ const WideCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
         className="h-48 w-full object-contain object-right-bottom"
       />
       <div className="absolute inset-0 p-6 bg-transparent transition duration-350 group-hover:bg-gray-950/50">
-        <h3 className="text-lg font-semibold text-white">{project.title}</h3>
-        <div className="text-gray-300 text-sm transition duration-350 opacity-0 group-hover:opacity-100 inline-block max-w-1/2">
+        <h3 className="text-lg font-semibold text-white transition duration-350 -translate-y-1 group-hover:translate-y-0">
+          {project.title}
+        </h3>
+        <div className="text-gray-300 text-sm max-w-1/2 transition duration-350 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0">
           {project.description}
         </div>
       </div>
@@ -88,14 +94,16 @@ const WideCardIcon: React.FC<{ slug: string; project: ProjectMetadata }> = ({
 }) => {
   const imageSrc = `/content/${slug}/images/${project.image}`;
   return (
-    <div className="bg-gray-950 border border-gray-900 w-full max-w-full flex col-span-2 rounded-xl overflow-hidden">
+    <div className="bg-gray-950 border border-gray-900 w-full max-w-full flex col-span-2 rounded-xl overflow-hidden group">
       <div className="p-3">
         <img width="48" height="48" src={imageSrc} />
       </div>
       <div className="bg-gray-950 px-4 flex flex-col justify-center leading-normal">
         <div>
-          <div className="text-gray-200 font-bold text-xl">{project.title}</div>
-          <p className="text-gray-300 text-base text-sm">
+          <div className="text-gray-200 font-bold text-xl transition duration-350 translate-y-3 group-hover:translate-y-0">
+            {project.title}
+          </div>
+          <p className="text-gray-300 text-base text-sm opacity-0 transition duration-350 translate-y-2 group-hover:translate-y-0 group-hover:opacity-100">
             {project.description}
           </p>
         </div>
