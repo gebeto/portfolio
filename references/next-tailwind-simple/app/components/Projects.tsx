@@ -13,7 +13,8 @@ const SmallCard: React.FC<{ slug: string, project: ProjectMetadata }> = ({ slug,
     //     </p> */}
     //   </div>
     // </div>
-    <div
+    <a
+      href={project.link}
       // className="group border relative max-w-sm overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-200 hover:shadow-lg w-full"
       className="group relative bg-gray-950 border border-gray-900 max-w-sm overflow-hidden rounded-lg shadow-md transition-shadow duration-200 hover:shadow-lg w-full"
     >
@@ -28,28 +29,35 @@ const SmallCard: React.FC<{ slug: string, project: ProjectMetadata }> = ({ slug,
         <p className="text-white">{project.summary}</p>
         {/* <div className="text-xl font-bold text-white">$29.99</div> */}
       </div>
-    </div>
+    </a>
   );
 }
 
 const WideCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({ slug, project }) => {
+  const imageSrc = `/content/${slug}/images/${project.image}`;
   return (
-    // <div className="max-w-sm border w-full lg:max-w-full lg:flex col-span-2 rounded-xl overflow-hidden">
-    //   <div className="h-48 lg:h-auto lg:w-48 flex-none bg-cover text-center overflow-hidden" style={{backgroundImage: 'url(https://picsum.photos/200/300)'}} title="Woman holding a mug">
-    //   </div>
-    //   <div className="bg-white p-4 flex flex-col justify-between leading-normal">
-    //     <div className="mb-8">
-    //       <div className="text-gray-900 font-bold text-xl mb-2">Can coffee make you a better developer?</div>
-    //       <p className="text-gray-700 text-base">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.</p>
-    //     </div>
-    //   </div>
-    // </div>
-    <div
-      // className="group border relative max-w-full overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-200 hover:shadow-lg col-span-2 w-full"
+    <div className="max-w-sm h-300 bg-gray-950 border border-gray-900 w-full lg:max-w-full lg:flex col-span-2 rounded-xl overflow-hidden">
+      <div
+        className="h-48 lg:h-auto lg:w-48 flex-none bg-cover text-center overflow-hidden"
+        style={{backgroundImage: `url(${imageSrc})`}}
+        title={project.title}
+      />
+      <div className="bg-gray-950 p-4 flex flex-col justify-between leading-normal">
+        <div className="mb-8">
+          <div className="text-gray-200 font-bold text-xl mb-2">{project.title}</div>
+          <p className="text-gray-300 text-base">{project.description}</p>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <a
+      href={project.link}
       className="group bg-gray-950 border border-gray-900 relative max-w-full overflow-hidden rounded-lg shadow-md transition-shadow duration-200 hover:shadow-lg col-span-2 w-full"
     >
       <img
-        src={`/content/${slug}/images/${project.image}`}
+        src={imageSrc}
         alt="Product"
         className="h-48 w-full object-contain object-right-bottom"
       />
@@ -59,7 +67,7 @@ const WideCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({ slug, 
         <p className="text-white">{project.summary}</p>
         {/* <div className="text-xl font-bold text-white">$29.99</div> */}
       </div>
-    </div>
+    </a>
   );
 }
 
