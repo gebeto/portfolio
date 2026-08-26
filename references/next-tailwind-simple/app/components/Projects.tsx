@@ -28,10 +28,10 @@ const SmallCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
         className="h-48 w-full object-contain object-right-bottom"
       />
       <div className="absolute inset-0 bg-black/60 p-6 transition duration-350 opacity-0 group-hover:opacity-100">
-        <h3 className="text-lg font-semibold text-white transition duration-350 -translate-y-1 group-hover:translate-y-0">
+        <h3 className="text-lg font-semibold text-white transition duration-350 -translate-y-1 group-hover:translate-y-0 -rotate-z-5 group-hover:rotate-z-0">
           {project.title}
         </h3>
-        <p className="text-white text-sm transition duration-350 translate-y-2 group-hover:translate-y-0">
+        <p className="text-white text-sm transition duration-350 translate-y-2 group-hover:translate-y-0 rotate-z-5 group-hover:rotate-z-0">
           {project.description}
         </p>
         {/* <div className="text-xl font-bold text-white">$29.99</div> */}
@@ -43,11 +43,16 @@ const SmallCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
 // TODO: add more card styles
 // TODO: add layout property into projects
 
+function getRandomInt(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 const WideCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
   slug,
   project,
 }) => {
   const imageSrc = `/content/${slug}/images/${project.image}`;
+  const randDeg = getRandomInt(-5, 5);
   // return (
   //   <div className="max-h-44 h-screen bg-gray-950 border border-gray-900 w-full max-w-full flex col-span-2 rounded-xl overflow-hidden">
   //     <div
@@ -80,7 +85,7 @@ const WideCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
         <h3 className="text-lg font-semibold text-white transition duration-350 -translate-y-1 group-hover:translate-y-0">
           {project.title}
         </h3>
-        <div className="text-gray-300 text-sm max-w-1/2 transition duration-350 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0">
+        <div className="text-gray-300 text-sm max-w-1/2 transition duration-350 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 rotate-z-4 group-hover:rotate-z-0">
           {project.description}
         </div>
       </div>
@@ -103,7 +108,7 @@ const WideCardIcon: React.FC<{ slug: string; project: ProjectMetadata }> = ({
           <div className="text-gray-200 font-bold text-xl transition duration-350 translate-y-3 group-hover:translate-y-0">
             {project.title}
           </div>
-          <p className="text-gray-300 text-base text-sm opacity-0 transition duration-350 translate-y-2 group-hover:translate-y-0 group-hover:opacity-100">
+          <p className="text-gray-300 text-base text-sm opacity-0 transition duration-350 translate-y-2 group-hover:translate-y-0 group-hover:opacity-100 rotate-z-3 group-hover:rotate-z-0">
             {project.description}
           </p>
         </div>
