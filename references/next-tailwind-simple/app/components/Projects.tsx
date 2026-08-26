@@ -7,19 +7,9 @@ const SmallCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
   project,
 }) => {
   return (
-    // <div className="max-w-sm border w-full rounded-xl overflow-hidden shadow-lg bg-white">
-    //   <img className="w-full" src="https://picsum.photos/300/200" alt="aui" />
-    //   <div className="px-3 py-2">
-    //     <div className="font-bold text-gray-900 text-l mb-0">The Coldest Sunset</div>
-    //     {/* <p className="text-gray-700 text-s">
-    //       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.
-    //     </p> */}
-    //   </div>
-    // </div>
     <a
       href={project.link}
-      // className="group border relative max-w-sm overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-200 hover:shadow-lg w-full"
-      className="group relative bg-gray-950 border border-gray-900 max-w-sm overflow-hidden rounded-lg shadow-md transition-shadow duration-200 hover:shadow-lg w-full"
+      className="group relative bg-gray-950 border border-gray-900 max-w-sm overflow-hidden rounded-lg shadow-md transition-shadow duration-200 hover:shadow-lg w-full col-span-2"
     >
       <img
         // src="https://picsum.photos/seed/picsum/300/200"
@@ -43,38 +33,16 @@ const SmallCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
 // TODO: add more card styles
 // TODO: add layout property into projects
 
-function getRandomInt(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
 const WideCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
   slug,
   project,
 }) => {
   const imageSrc = `/content/${slug}/images/${project.image}`;
-  const randDeg = getRandomInt(-5, 5);
-  // return (
-  //   <div className="max-h-44 h-screen bg-gray-950 border border-gray-900 w-full max-w-full flex col-span-2 rounded-xl overflow-hidden">
-  //     <div
-  //       className="h-48 h-auto w-48 flex-none bg-cover text-center overflow-hidden"
-  //       style={{ backgroundImage: `url(${imageSrc})` }}
-  //       title={project.title}
-  //     />
-  //     <div className="bg-gray-950 p-4 flex flex-col justify-between leading-normal">
-  //       <div className="mb-8">
-  //         <div className="text-gray-200 font-bold text-xl mb-2">
-  //           {project.title}
-  //         </div>
-  //         <p className="text-gray-300 text-base">{project.description}</p>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
 
   return (
     <a
       href={project.link}
-      className="group bg-gray-950 border border-gray-900 relative max-w-full overflow-hidden rounded-lg shadow-md transition-shadow duration-200 hover:shadow-lg col-span-2 w-full"
+      className="group bg-gray-950 border border-gray-900 relative max-w-full overflow-hidden rounded-lg shadow-md transition-shadow duration-200 hover:shadow-lg col-span-4 w-full"
     >
       <img
         src={imageSrc}
@@ -99,21 +67,24 @@ const WideCardIcon: React.FC<{ slug: string; project: ProjectMetadata }> = ({
 }) => {
   const imageSrc = `/content/${slug}/images/${project.image}`;
   return (
-    <div className="bg-gray-950 border border-gray-900 w-full max-w-full flex col-span-2 rounded-xl overflow-hidden group">
-      <div className="p-3">
+    <a
+      href={project.link}
+      className="bg-gray-950 border border-gray-900 w-full max-w-full flex col-span-2 rounded-xl overflow-hidden group"
+    >
+      <div className="p-3 flex items-center">
         <img width="48" height="48" src={imageSrc} />
       </div>
-      <div className="bg-gray-950 px-4 flex flex-col justify-center leading-normal">
+      <div className="bg-gray-950 px-4 flex flex-col justify-center leading-normal p-2">
         <div>
-          <div className="text-gray-200 font-bold text-xl transition duration-350 translate-y-3 group-hover:translate-y-0">
+          <div className="text-gray-200 font-bold text-xl transition duration-350 translate-y-4 group-hover:translate-y-0">
             {project.title}
           </div>
-          <p className="text-gray-300 text-base text-sm opacity-0 transition duration-350 translate-y-2 group-hover:translate-y-0 group-hover:opacity-100 rotate-z-3 group-hover:rotate-z-0">
+          <p className="text-gray-300 text-base text-xs opacity-0 transition duration-350 translate-y-2 group-hover:translate-y-0 group-hover:opacity-100 rotate-z-3 group-hover:rotate-z-0">
             {project.description}
           </p>
         </div>
       </div>
-    </div>
+    </a>
   );
 };
 
@@ -139,7 +110,7 @@ export function Projects() {
   const allProjects = getProjects();
 
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-6 gap-4 -mx-20">
       {allProjects
         .sort((a, b) => {
           if (

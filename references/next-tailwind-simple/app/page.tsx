@@ -1,16 +1,22 @@
-import { BlogPosts } from 'app/components/BlogPosts'
-import { Projects } from './components/Projects'
-import Image from 'next/image'
-import avatarJpg from './avatar.jpg';
+import { BlogPosts } from "app/components/BlogPosts";
+import { Projects } from "./components/Projects";
+import Image from "next/image";
+import avatarJpg from "./avatar.jpg";
 
 export default function Page() {
   return (
     <section>
       <div>
-      <Image alt="avatar" src={avatarJpg} width={60} className="rounded-full mb-2" />
+        <Image
+          alt="avatar"
+          src={avatarJpg}
+          width={60}
+          className="rounded-full mb-2"
+        />
       </div>
       <h1 className="mb-8 text-2xl font-semibold tracking-tighter">
-        Yaroslav <br />Nychkalo
+        Yaroslav <br />
+        Nychkalo
       </h1>
       <p className="mb-12">
         I'm a Vim enthusiast and tab advocate, finding unmatched efficiency in
@@ -34,5 +40,5 @@ export default function Page() {
         <BlogPosts />
       </div>
     </section>
-  )
+  );
 }
