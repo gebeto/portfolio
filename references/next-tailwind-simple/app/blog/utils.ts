@@ -13,8 +13,9 @@ export type ProjectMetadata = {
   publishedAt: string
   link: string
   description?: string;
+  image?: string;
   cardType: 'small' | 'wide'
-  image?: string
+  layoutSpan: string;
 }
 
 type Metadata = BlogPostMetadata | ProjectMetadata;

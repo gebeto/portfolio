@@ -2,6 +2,15 @@ import Link from "next/link";
 import React from "react";
 import { getProjects, ProjectMetadata } from "app/blog/utils";
 
+const spanClass = {
+  1: "col-span-1",
+  2: "col-span-2",
+  3: "col-span-3",
+  4: "col-span-4",
+  5: "col-span-5",
+  6: "col-span-6",
+};
+
 const SmallCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
   slug,
   project,
@@ -9,7 +18,7 @@ const SmallCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
   return (
     <a
       href={project.link}
-      className="group relative bg-gray-950 border border-gray-900 max-w-sm overflow-hidden rounded-lg shadow-md transition-shadow duration-200 hover:shadow-lg w-full col-span-2"
+      className={`group relative bg-gray-950 border border-gray-900 max-w-sm overflow-hidden rounded-lg shadow-md transition-shadow duration-200 hover:shadow-lg w-full ${spanClass[project.layoutSpan || 2]}`}
     >
       <img
         // src="https://picsum.photos/seed/picsum/300/200"
@@ -42,7 +51,7 @@ const WideCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
   return (
     <a
       href={project.link}
-      className="group bg-gray-950 border border-gray-900 relative max-w-full overflow-hidden rounded-lg shadow-md transition-shadow duration-200 hover:shadow-lg col-span-4 w-full"
+      className={`group bg-gray-950 border border-gray-900 relative max-w-full overflow-hidden rounded-lg shadow-md transition-shadow duration-200 hover:shadow-lg  w-full ${spanClass[project.layoutSpan || 4]}`}
     >
       <img
         src={imageSrc}
@@ -69,7 +78,7 @@ const WideCardIcon: React.FC<{ slug: string; project: ProjectMetadata }> = ({
   return (
     <a
       href={project.link}
-      className="bg-gray-950 border border-gray-900 w-full max-w-full flex col-span-2 rounded-xl overflow-hidden group"
+      className={`bg-gray-950 border border-gray-900 w-full max-w-full flex ${spanClass[project.layoutSpan || 2]} rounded-xl overflow-hidden group`}
     >
       <div className="p-3 flex items-center">
         <img width="48" height="48" src={imageSrc} />
@@ -96,8 +105,6 @@ const cardsMap = {
 
 function Project(props: { slug: string; project: ProjectMetadata }) {
   const ProjectCard = cardsMap[props.project.cardType];
-
-  console.log(" >>> SDSDS", cardsMap);
 
   if (ProjectCard) {
     return <ProjectCard slug={props.slug} project={props.project} />;
