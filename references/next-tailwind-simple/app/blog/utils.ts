@@ -1,14 +1,14 @@
 import fs from 'fs'
 import path from 'path'
 
-type BlogPostMetadata = {
+export type BlogPostMetadata = {
   title: string
   publishedAt: string
   summary: string
   image?: string
 }
 
-type ProjectMetadata = {
+export type ProjectMetadata = {
   title: string
   publishedAt: string
   summary: string

@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import React from 'react';
-import { formatDate, getBlogPosts, getProjects } from 'app/blog/utils'
+import { getProjects, ProjectMetadata } from 'app/blog/utils'
 
-const SmallCard = () => {
+const SmallCard: React.FC<{ project: ProjectMetadata }> = ({ project }) => {
   return (
     // <div className="max-w-sm border w-full rounded-xl overflow-hidden shadow-lg bg-white">
     //   <img className="w-full" src="https://picsum.photos/300/200" alt="aui" />
@@ -22,15 +22,15 @@ const SmallCard = () => {
         className="h-48 w-full object-cover"
       />
       <div className="absolute inset-0 bg-black/60 p-6 opacity-0 group-hover:opacity-100">
-        <h3 className="text-lg font-semibold text-white">Product Name</h3>
-        <p className="text-white">Product description goes here.</p>
-        <div className="text-xl font-bold text-white">$29.99</div>
+        <h3 className="text-lg font-semibold text-white">{project.title}</h3>
+        <p className="text-white">{project.summary}</p>
+        {/* <div className="text-xl font-bold text-white">$29.99</div> */}
       </div>
     </div>
   );
 }
 
-const WideCard = () => {
+const WideCard: React.FC<{ project: ProjectMetadata }> = ({ project }) => {
   return (
     // <div className="max-w-sm border w-full lg:max-w-full lg:flex col-span-2 rounded-xl overflow-hidden">
     //   <div className="h-48 lg:h-auto lg:w-48 flex-none bg-cover text-center overflow-hidden" style={{backgroundImage: 'url(https://picsum.photos/200/300)'}} title="Woman holding a mug">
@@ -51,9 +51,9 @@ const WideCard = () => {
         className="h-48 w-full object-cover"
       />
       <div className="absolute inset-0 bg-black/60 p-6 opacity-0 group-hover:opacity-100">
-        <h3 className="text-lg font-semibold text-white">Product Name</h3>
-        <p className="text-white">Product description goes here.</p>
-        <div className="text-xl font-bold text-white">$29.99</div>
+        <h3 className="text-lg font-semibold text-white">{project.title}</h3>
+        <p className="text-white">{project.summary}</p>
+        {/* <div className="text-xl font-bold text-white">$29.99</div> */}
       </div>
     </div>
   );
@@ -75,8 +75,8 @@ export function Projects() {
         })
         .map((projects) => (
           <React.Fragment key={projects.slug}>
-          {projects.metadata.cardType === 'small' && <SmallCard key={projects.slug} />}
-          {projects.metadata.cardType === 'wide' && <WideCard key={projects.slug} />}
+          {projects.metadata.cardType === 'small' && <SmallCard key={projects.slug} project={projects.metadata} />}
+          {projects.metadata.cardType === 'wide' && <WideCard key={projects.slug} project={projects.metadata} />}
           </React.Fragment>
         ))}
           {/* <Link
