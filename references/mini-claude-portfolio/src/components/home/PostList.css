@@ -1,0 +1,57 @@
+/* Posts / writing lists inside card wrapper */
+.list-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 2px 0px;
+  /* padding: 2px 18px; */
+}
+.list-rows {
+  display: flex;
+  flex-direction: column;
+}
+.row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px;
+  align-items: baseline;
+  padding: 11px 18px;
+  border-radius: 8px;
+  /* border-bottom: 1px solid var(--rule-soft); */
+  transition: transform 0.25s ease;
+}
+.row:hover {
+  transform: translateX(2px);
+  background: var(--card-bg-active);
+}
+.row:last-child {
+  border-bottom: none;
+}
+.row .title-line {
+  font-size: 16px;
+}
+.row .title-line a {
+  font-weight: 400;
+}
+.row .kicker {
+  font-size: 12px;
+  color: var(--accent);
+  margin-right: 10px;
+  padding: 1px 9px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  display: inline-block;
+  font-style: italic;
+}
+.row .date {
+  font-size: 12px;
+  color: var(--ink-muted);
+  white-space: nowrap;
+  font-style: italic;
+}
+.row .excerpt {
+  color: var(--ink-soft);
+  font-size: 14px;
+  margin-top: 2px;
+  max-width: 60ch;
+  line-height: 1.5;
+}

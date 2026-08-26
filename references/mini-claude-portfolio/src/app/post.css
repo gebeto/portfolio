@@ -1,0 +1,313 @@
+.post-header {
+  margin-bottom: 28px;
+}
+.post-header .kicker-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  font-size: 13px;
+  color: var(--ink-muted);
+  font-style: italic;
+}
+.post-header .kicker-row .sep {
+  color: var(--rule);
+}
+.post-header h1 {
+  font-size: clamp(30px, 4.4vw, 42px);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  font-weight: 400;
+  margin: 0 0 14px;
+  text-wrap: balance;
+}
+.post-header .lede {
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  font-style: italic;
+  margin: 0;
+  max-width: 60ch;
+}
+.post-header .byline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--ink-muted);
+  font-style: italic;
+}
+.post-header .byline .avatar-sm {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #c9a989 0%, #8c6b52 100%);
+}
+.post-header .byline .avatar-sm img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.post-header .byline b {
+  color: var(--ink);
+  font-weight: 500;
+  font-style: normal;
+}
+
+.post-body {
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--ink);
+  max-width: 64ch;
+}
+.post-body > * + * {
+  margin-top: 1em;
+}
+.post-body p {
+  margin: 0;
+}
+.post-body h2 {
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin: 2em 0 0.4em;
+  line-height: 1.25;
+  position: relative;
+}
+.post-body h2:before {
+  content: "# ";
+  color: var(--ink-soft);
+  position: absolute;
+  right: calc(100% + 10px);
+}
+.post-body h3 {
+  font-size: 18px;
+  font-weight: 500;
+  font-style: italic;
+  margin: 1.6em 0 0.3em;
+  color: var(--ink);
+}
+.post-body a {
+  color: var(--accent);
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 100% 1px;
+}
+.post-body a:hover {
+  color: var(--ink);
+}
+.post-body strong {
+  font-weight: 600;
+}
+.post-body em {
+  font-style: italic;
+}
+
+.post-body blockquote {
+  margin: 1.4em 0;
+  padding: 2px 0 2px 18px;
+  border-left: 3px solid var(--accent);
+  color: var(--ink-soft);
+  font-style: italic;
+}
+.post-body blockquote p {
+  margin: 0;
+}
+
+.post-body ul,
+.post-body ol {
+  margin: 0;
+  padding-left: 1.4em;
+}
+.post-body li {
+  margin: 0.3em 0;
+}
+.post-body li::marker {
+  color: var(--ink-muted);
+}
+
+.post-body hr {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 2em auto;
+  width: 60%;
+}
+
+.post-body code {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.88em;
+  background: var(--card-bg);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+.post-body pre {
+  background: var(--card-bg);
+  padding: 14px 16px;
+  border-radius: 10px;
+  overflow-x: auto;
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+.post-body pre code {
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+  /* code spans are wrapped in a grid so highlighted lines span full width */
+  display: grid;
+}
+
+/* --- rehype-pretty-code (Shiki dual-theme) --- */
+
+/* The `pre` sits inside a `.code-block` wrapper inside the figure. */
+.post-body [data-rehype-pretty-code-figure] {
+  margin: 1.6em 0;
+}
+.post-body [data-rehype-pretty-code-figure] pre {
+  margin: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border: 1px solid var(--rule);
+  border-top: none;
+}
+
+/* Title / filename header rendered above the block. Overrides the italic,
+   centered image figcaption defaults. */
+.post-body [data-rehype-pretty-code-title] {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 12.5px;
+  font-style: normal;
+  text-align: left;
+  color: var(--ink-muted);
+  background: var(--card-bg);
+  border: 1px solid var(--rule);
+  border-bottom: none;
+  border-radius: 10px 10px 0 0;
+  padding: 8px 16px;
+  margin: 0;
+}
+.post-body [data-rehype-pretty-code-title] + .code-block pre {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* Token colors: default to light, switch to dark on explicit toggle or, when
+   no explicit choice is made, on system preference. Mirrors globals.css. */
+.post-body [data-rehype-pretty-code-figure] code span {
+  color: var(--shiki-light);
+}
+html[data-theme="dark"] .post-body [data-rehype-pretty-code-figure] code span {
+  color: var(--shiki-dark);
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"])
+    .post-body
+    [data-rehype-pretty-code-figure]
+    code
+    span {
+    color: var(--shiki-dark);
+  }
+}
+
+/* Highlighted lines ({1,3-5} meta). */
+.post-body [data-highlighted-line] {
+  background: var(--accent-soft);
+  box-shadow: inset 2px 0 0 var(--accent);
+  /* extend the tint edge-to-edge past the pre padding */
+  margin: 0 -16px;
+  padding: 0 16px;
+}
+
+.post-body figure {
+  margin: 1.6em 0;
+}
+.post-body figcaption {
+  font-size: 13px;
+  color: var(--ink-muted);
+  font-style: italic;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.post-body .pull {
+  font-size: 22px;
+  line-height: 1.35;
+  font-style: italic;
+  color: var(--ink);
+  margin: 1.5em 0;
+  padding: 4px 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  max-width: none;
+}
+
+.post-tags-foot {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule-soft);
+}
+.post-tags-foot span {
+  font-size: 12px;
+  color: var(--ink-muted);
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--card-bg);
+  font-style: italic;
+}
+
+.post-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 32px;
+}
+.post-nav a {
+  background: var(--card-bg);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  background-image: none;
+  transition: transform 0.25s ease;
+  display: block;
+}
+.post-nav a:hover {
+  transform: translateY(-2px);
+  color: var(--ink);
+}
+.post-nav .label {
+  font-size: 12px;
+  color: var(--ink-muted);
+  font-style: italic;
+  display: block;
+  margin-bottom: 4px;
+}
+.post-nav .title {
+  font-size: 15px;
+  color: var(--ink);
+  line-height: 1.3;
+}
+.post-nav a:hover .title {
+  color: var(--accent);
+}
+.post-nav .next {
+  text-align: right;
+}
+.post-nav .disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+@media (max-width: 720px) {
+  .post-nav {
+    grid-template-columns: 1fr;
+  }
+  .post-nav .next {
+    text-align: left;
+  }
+}

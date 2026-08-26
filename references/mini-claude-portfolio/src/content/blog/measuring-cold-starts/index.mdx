@@ -1,0 +1,105 @@
+---
+title: Measuring cold starts the honest way
+excerpt: Why P99 lies to you about serverless, and a tiny harness that tells the truth.
+date: "2026-04-12"
+read: 7
+tags:
+  - infra
+  - performance
+---
+
+Every team I've worked with has, at some point, looked at a dashboard showing a
+flat 40 ms P99 line and concluded that their serverless setup is fine. It
+isn't. That line is the shape of your _warm_ traffic — the requests that found
+an instance already running, already connected to the database, already happy.
+It tells you almost nothing about the experience of the first user to land on a
+quiet endpoint after it's been idle for fifteen minutes.
+
+The honest measurement of a cold start isn't a percentile — it's a **cohort**.
+Specifically: the distribution of latencies observed on requests where no warm
+instance was available at the moment of dispatch. Most observability tooling
+won't give you this cohort directly, because the platform doesn't expose it. You
+have to synthesize it.
+
+## The harness
+
+For the last few months I've been running the same tiny harness against every
+serverless endpoint I ship. It's about eighty lines of Go and does exactly one
+thing: it waits long enough to guarantee a cold start, fires a single request,
+records the wall-clock latency, and waits again. No parallelism, no P99, no
+averaging. Just a stream of honest numbers.
+
+```go title="coldstart.go" {2,4}
+for i := 0; i < n; i++ {
+    time.Sleep(coldWindow)   // longer than the platform's keep-alive
+    start := time.Now()
+    _, err := http.Get(url)
+    latency := time.Since(start)
+    record(latency, err)
+}
+```
+
+The only clever bit is `coldWindow`. For AWS Lambda I use eighteen minutes. For
+Cloud Run, twelve. For Vercel's Edge Functions, about five. These numbers aren't
+in the docs — I found them by running the harness at different intervals until
+the latency distribution collapsed into two obvious modes.
+
+<Pull>
+  The honest measurement of a cold start isn't a percentile — it's a cohort.
+</Pull>
+
+## What the numbers looked like
+
+On the routing service I'm rewriting at SPSoft, the warm P99 was 38 ms. The
+cold-start cohort — what the first user of the morning actually experienced —
+was a median of **1.9 seconds**, with a long tail out to four. That's a
+fiftyfold gap that no dashboard was showing us.
+
+Three things followed from knowing that number:
+
+1. We stopped apologizing for the 40 ms P99 and started designing around the
+   1.9 s median cold.
+2. We moved the hottest endpoints to a small container that never sleeps, and
+   kept the cheap ones on Lambda with a clear SLO for first-hit latency.
+3. We added a synthetic prober that fires a request every ten minutes to the
+   three endpoints customers land on most often. Not because the harness wasn't
+   working — but because we now cared enough to keep them warm.
+
+## Why P99 lies
+
+P99 is a population statistic. Cold starts are, by definition, a minority event
+— often less than half a percent of your traffic, because most real traffic
+hits warm instances. The cold requests vanish into the tail of the
+distribution, and then the tail gets trimmed because "we don't care about the
+worst 1%."
+
+> The user doesn't experience percentiles. They experience the single request
+> they made.
+
+If your traffic is bursty — and everyone's traffic is bursty — a significant
+fraction of _real users_ are drawn from that bottom 1%. They're the ones opening
+your app first thing in the morning, or after lunch, or the moment a marketing
+email goes out. Treating them as statistical noise is a choice. It's just not a
+choice most teams are making deliberately.
+
+## What to do with the number
+
+Once you have an honest cold-start median, a few things get easier:
+
+- **Sizing decisions.** If cold is 2 seconds and your SLA is 500 ms, you need
+  warm instances. No amount of clever code paths fixes two orders of magnitude.
+- **Runtime choices.** A Go binary on Lambda is a very different number than a
+  Node process with thirty megabytes of dependencies. The harness lets you make
+  the comparison without ceremony.
+- **Product conversations.** "The first request of the morning takes two
+  seconds" is a sentence a product manager can reason about. "P99 is 40 ms but
+  P99.9 is 1.8 seconds" is a sentence that gets nodded at and forgotten.
+
+---
+
+The code is in [gebeto/cold-honest](https://github.com/gebeto/cold-honest) if
+you want to steal it. It's small enough that you should probably rewrite it
+anyway — the point isn't the tool, it's asking a different question.
+
+The next time someone shows you a 40 ms P99 and calls it a day, ask them what
+the first user of the morning saw. If they don't know, neither do you.

@@ -1,0 +1,26 @@
+/* Blog listing page */
+.page-title {
+  margin-bottom: 28px;
+}
+.page-title h1 {
+  font-size: clamp(28px, 4vw, 38px);
+  margin: 0 0 6px;
+}
+.page-title .sub {
+  color: var(--ink-soft);
+  font-style: italic;
+  margin: 0;
+  font-size: 15px;
+  max-width: 55ch;
+}
+.back-link {
+  display: inline-block;
+  font-size: 13px;
+  color: var(--ink-muted);
+  font-style: italic;
+  background-image: none;
+  margin-bottom: 24px;
+}
+.back-link:hover {
+  color: var(--accent);
+}

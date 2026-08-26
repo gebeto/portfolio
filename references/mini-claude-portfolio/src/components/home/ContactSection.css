@@ -1,0 +1,28 @@
+/* Contact */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  row-gap: 8px;
+  column-gap: 20px;
+  font-size: 15px;
+  margin: 0;
+}
+.contact-grid dt {
+  font-size: 13px;
+  color: var(--ink-muted);
+  font-style: italic;
+  padding-top: 3px;
+}
+.contact-grid dd {
+  margin: 0;
+}
+
+@media (max-width: 720px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+    row-gap: 2px;
+  }
+  .contact-grid dt {
+    padding-top: 10px;
+  }
+}
