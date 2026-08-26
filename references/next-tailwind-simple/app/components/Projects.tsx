@@ -33,6 +33,10 @@ const SmallCard: React.FC<{ slug: string, project: ProjectMetadata }> = ({ slug,
   );
 }
 
+// TODO: add more card styles
+// TODO: add layout property into projects
+
+
 const WideCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({ slug, project }) => {
   const imageSrc = `/content/${slug}/images/${project.image}`;
   return (
