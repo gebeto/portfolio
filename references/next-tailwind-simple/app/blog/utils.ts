@@ -36,8 +36,16 @@ function parseFrontmatter<T extends Metadata>(fileContent: string) {
   return { metadata: metadata as T, content }
 }
 
+
 function getMDXFiles(dir: string) {
-  return fs.readdirSync(dir).filter((file) => path.extname(file) === '.mdx')
+  const projectFolders = fs
+    .readdirSync(dir)
+    .map(folder => path.join(dir, folder))
+    .filter(folderPath => fs.statSync(folderPath).isDirectory())
+  const files = projectFolders
+    .map(folder => path.join(folder, "index.mdx"))
+    .filter(md => fs.statSync(md).isFile())
+  return files
 }
 
 function readMDXFile<T extends Metadata>(filePath: string) {
@@ -48,8 +56,8 @@ function readMDXFile<T extends Metadata>(filePath: string) {
 function getMDXData<T extends Metadata>(dir: string) {
   let mdxFiles = getMDXFiles(dir)
   return mdxFiles.map((file) => {
-    let { metadata, content } = readMDXFile<T>(path.join(dir, file))
-    let slug = path.basename(file, path.extname(file))
+    let { metadata, content } = readMDXFile<T>(path.join(file))
+    let slug = path.basename(path.dirname(file))
 
     return {
       metadata,
@@ -58,6 +66,7 @@ function getMDXData<T extends Metadata>(dir: string) {
     }
   })
 }
+
 
 export function getBlogPosts() {
   return getMDXData<BlogPostMetadata>(path.join(process.cwd(), 'content', 'posts'))

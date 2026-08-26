@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React from 'react';
 import { getProjects, ProjectMetadata } from 'app/blog/utils'
 
-const SmallCard: React.FC<{ project: ProjectMetadata }> = ({ project }) => {
+const SmallCard: React.FC<{ slug: string, project: ProjectMetadata }> = ({ slug, project }) => {
   return (
     // <div className="max-w-sm border w-full rounded-xl overflow-hidden shadow-lg bg-white">
     //   <img className="w-full" src="https://picsum.photos/300/200" alt="aui" />
@@ -14,12 +14,14 @@ const SmallCard: React.FC<{ project: ProjectMetadata }> = ({ project }) => {
     //   </div>
     // </div>
     <div
-      className="group border relative max-w-sm overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-200 hover:shadow-lg w-full"
+      // className="group border relative max-w-sm overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-200 hover:shadow-lg w-full"
+      className="group relative bg-gray-950 border border-gray-900 max-w-sm overflow-hidden rounded-lg shadow-md transition-shadow duration-200 hover:shadow-lg w-full"
     >
       <img
-        src="https://picsum.photos/seed/picsum/300/200"
+        // src="https://picsum.photos/seed/picsum/300/200"
+        src={`/content/${slug}/images/${project.image}`}
         alt="Product"
-        className="h-48 w-full object-cover"
+        className="h-48 w-full object-contain object-right-bottom"
       />
       <div className="absolute inset-0 bg-black/60 p-6 opacity-0 group-hover:opacity-100">
         <h3 className="text-lg font-semibold text-white">{project.title}</h3>
@@ -30,7 +32,7 @@ const SmallCard: React.FC<{ project: ProjectMetadata }> = ({ project }) => {
   );
 }
 
-const WideCard: React.FC<{ project: ProjectMetadata }> = ({ project }) => {
+const WideCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({ slug, project }) => {
   return (
     // <div className="max-w-sm border w-full lg:max-w-full lg:flex col-span-2 rounded-xl overflow-hidden">
     //   <div className="h-48 lg:h-auto lg:w-48 flex-none bg-cover text-center overflow-hidden" style={{backgroundImage: 'url(https://picsum.photos/200/300)'}} title="Woman holding a mug">
@@ -43,14 +45,16 @@ const WideCard: React.FC<{ project: ProjectMetadata }> = ({ project }) => {
     //   </div>
     // </div>
     <div
-      className="group border relative max-w-full overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-200 hover:shadow-lg col-span-2 w-full"
+      // className="group border relative max-w-full overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-200 hover:shadow-lg col-span-2 w-full"
+      className="group bg-gray-950 border border-gray-900 relative max-w-full overflow-hidden rounded-lg shadow-md transition-shadow duration-200 hover:shadow-lg col-span-2 w-full"
     >
       <img
-        src="https://picsum.photos/seed/picsum/1600/1400"
+        src={`/content/${slug}/images/${project.image}`}
         alt="Product"
-        className="h-48 w-full object-cover"
+        className="h-48 w-full object-contain object-right-bottom"
       />
-      <div className="absolute inset-0 bg-black/60 p-6 opacity-0 group-hover:opacity-100">
+      {/* <div className="absolute inset-0 bg-black/60 p-6 opacity-100 group-hover:opacity-100"> */}
+      <div className="absolute inset-0 p-6 opacity-100 group-hover:opacity-100">
         <h3 className="text-lg font-semibold text-white">{project.title}</h3>
         <p className="text-white">{project.summary}</p>
         {/* <div className="text-xl font-bold text-white">$29.99</div> */}
@@ -75,8 +79,8 @@ export function Projects() {
         })
         .map((projects) => (
           <React.Fragment key={projects.slug}>
-          {projects.metadata.cardType === 'small' && <SmallCard key={projects.slug} project={projects.metadata} />}
-          {projects.metadata.cardType === 'wide' && <WideCard key={projects.slug} project={projects.metadata} />}
+          {projects.metadata.cardType === 'small' && <SmallCard key={projects.slug} slug={projects.slug} project={projects.metadata} />}
+          {projects.metadata.cardType === 'wide' && <WideCard key={projects.slug} slug={projects.slug} project={projects.metadata} />}
           </React.Fragment>
         ))}
           {/* <Link
