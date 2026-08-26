@@ -1,8 +1,11 @@
-import Link from 'next/link'
-import React from 'react';
-import { getProjects, ProjectMetadata } from 'app/blog/utils'
+import Link from "next/link";
+import React from "react";
+import { getProjects, ProjectMetadata } from "app/blog/utils";
 
-const SmallCard: React.FC<{ slug: string, project: ProjectMetadata }> = ({ slug, project }) => {
+const SmallCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
+  slug,
+  project,
+}) => {
   return (
     // <div className="max-w-sm border w-full rounded-xl overflow-hidden shadow-lg bg-white">
     //   <img className="w-full" src="https://picsum.photos/300/200" alt="aui" />
@@ -24,36 +27,40 @@ const SmallCard: React.FC<{ slug: string, project: ProjectMetadata }> = ({ slug,
         alt="Product"
         className="h-48 w-full object-contain object-right-bottom"
       />
-      <div className="absolute inset-0 bg-black/60 p-6 opacity-0 group-hover:opacity-100">
+      <div className="absolute inset-0 bg-black/60 p-6 transition duration-350 opacity-0 group-hover:opacity-100">
         <h3 className="text-lg font-semibold text-white">{project.title}</h3>
-        <p className="text-white">{project.summary}</p>
+        <p className="text-white">{project.description}</p>
         {/* <div className="text-xl font-bold text-white">$29.99</div> */}
       </div>
     </a>
   );
-}
+};
 
 // TODO: add more card styles
 // TODO: add layout property into projects
 
-
-const WideCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({ slug, project }) => {
+const WideCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
+  slug,
+  project,
+}) => {
   const imageSrc = `/content/${slug}/images/${project.image}`;
-  return (
-    <div className="max-w-sm h-300 bg-gray-950 border border-gray-900 w-full lg:max-w-full lg:flex col-span-2 rounded-xl overflow-hidden">
-      <div
-        className="h-48 lg:h-auto lg:w-48 flex-none bg-cover text-center overflow-hidden"
-        style={{backgroundImage: `url(${imageSrc})`}}
-        title={project.title}
-      />
-      <div className="bg-gray-950 p-4 flex flex-col justify-between leading-normal">
-        <div className="mb-8">
-          <div className="text-gray-200 font-bold text-xl mb-2">{project.title}</div>
-          <p className="text-gray-300 text-base">{project.description}</p>
-        </div>
-      </div>
-    </div>
-  );
+  // return (
+  //   <div className="max-h-44 h-screen bg-gray-950 border border-gray-900 w-full max-w-full flex col-span-2 rounded-xl overflow-hidden">
+  //     <div
+  //       className="h-48 h-auto w-48 flex-none bg-cover text-center overflow-hidden"
+  //       style={{ backgroundImage: `url(${imageSrc})` }}
+  //       title={project.title}
+  //     />
+  //     <div className="bg-gray-950 p-4 flex flex-col justify-between leading-normal">
+  //       <div className="mb-8">
+  //         <div className="text-gray-200 font-bold text-xl mb-2">
+  //           {project.title}
+  //         </div>
+  //         <p className="text-gray-300 text-base">{project.description}</p>
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
 
   return (
     <a
@@ -65,18 +72,58 @@ const WideCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({ slug, 
         alt="Product"
         className="h-48 w-full object-contain object-right-bottom"
       />
-      {/* <div className="absolute inset-0 bg-black/60 p-6 opacity-100 group-hover:opacity-100"> */}
-      <div className="absolute inset-0 p-6 opacity-100 group-hover:opacity-100">
+      <div className="absolute inset-0 p-6 bg-transparent transition duration-350 group-hover:bg-gray-950/50">
         <h3 className="text-lg font-semibold text-white">{project.title}</h3>
-        <p className="text-white">{project.summary}</p>
-        {/* <div className="text-xl font-bold text-white">$29.99</div> */}
+        <div className="text-gray-300 text-sm transition duration-350 opacity-0 group-hover:opacity-100 inline-block max-w-1/2">
+          {project.description}
+        </div>
       </div>
     </a>
   );
+};
+
+const WideCardIcon: React.FC<{ slug: string; project: ProjectMetadata }> = ({
+  slug,
+  project,
+}) => {
+  const imageSrc = `/content/${slug}/images/${project.image}`;
+  return (
+    <div className="bg-gray-950 border border-gray-900 w-full max-w-full flex col-span-2 rounded-xl overflow-hidden">
+      <div className="p-3">
+        <img width="48" height="48" src={imageSrc} />
+      </div>
+      <div className="bg-gray-950 px-4 flex flex-col justify-center leading-normal">
+        <div>
+          <div className="text-gray-200 font-bold text-xl">{project.title}</div>
+          <p className="text-gray-300 text-base text-sm">
+            {project.description}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const cardsMap = {
+  small: SmallCard,
+  wide: WideCard,
+  wide_icon: WideCardIcon,
+};
+
+function Project(props: { slug: string; project: ProjectMetadata }) {
+  const ProjectCard = cardsMap[props.project.cardType];
+
+  console.log(" >>> SDSDS", cardsMap);
+
+  if (ProjectCard) {
+    return <ProjectCard slug={props.slug} project={props.project} />;
+  }
+
+  return <span>Unknown</span>;
 }
 
 export function Projects() {
-  const allProjects = getProjects()
+  const allProjects = getProjects();
 
   return (
     <div className="grid grid-cols-2 gap-4">
@@ -85,30 +132,17 @@ export function Projects() {
           if (
             new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)
           ) {
-            return -1
+            return -1;
           }
-          return 1
+          return 1;
         })
         .map((projects) => (
-          <React.Fragment key={projects.slug}>
-          {projects.metadata.cardType === 'small' && <SmallCard key={projects.slug} slug={projects.slug} project={projects.metadata} />}
-          {projects.metadata.cardType === 'wide' && <WideCard key={projects.slug} slug={projects.slug} project={projects.metadata} />}
-          </React.Fragment>
+          <Project
+            key={projects.slug}
+            slug={projects.slug}
+            project={projects.metadata}
+          />
         ))}
-          {/* <Link
-            key={post.slug}
-            className="flex flex-col space-y-1 mb-4"
-            href={`/blog/${post.slug}`}
-          >
-            <div className="w-full flex flex-col md:flex-row space-x-0 md:space-x-2">
-              <p className="text-neutral-600 dark:text-neutral-400 w-[100px] tabular-nums">
-                {formatDate(post.metadata.publishedAt, false)}
-              </p>
-              <p className="text-neutral-900 dark:text-neutral-100 tracking-tight">
-                {post.metadata.title}
-              </p>
-            </div>
-          </Link> */}
     </div>
-  )
+  );
 }
