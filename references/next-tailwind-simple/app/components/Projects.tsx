@@ -103,6 +103,19 @@ const cardsMap = {
   wide_icon: WideCardIcon,
 };
 
+const ViewMore = () => (
+  <div className="flex flex-col items-center justify-center text-center py-4 col-span-2">
+    <div className="text-lg font-bold text-gray-50">Want to see more?</div>
+    <div className="text-gray-200">Explore more of my work</div>
+    <a
+      className="mt-3 bg-gray-800 hover:bg-gray-700 text-gray-100 py-1 px-6 rounded-md"
+      href="/projects"
+    >
+      View all
+    </a>
+  </div>
+);
+
 function Project(props: { slug: string; project: ProjectMetadata }) {
   const ProjectCard = cardsMap[props.project.cardType];
 
@@ -119,6 +132,7 @@ export function Projects() {
   return (
     <div className="grid grid-cols-6 gap-4 -mx-20">
       {allProjects
+        .slice(0, 6)
         .sort((a, b) => {
           if (
             new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)
@@ -134,6 +148,7 @@ export function Projects() {
             project={projects.metadata}
           />
         ))}
+      <ViewMore />
     </div>
   );
 }
