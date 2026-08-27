@@ -1,28 +1,28 @@
 import { notFound } from "next/navigation";
 import { CustomMDX } from "app/components/mdx";
-import { formatDate, getBlogPosts } from "app/utils";
+import { formatDate, getBlogPosts, getProjects } from "app/utils";
 import { baseUrl } from "app/sitemap";
 
 export async function generateStaticParams() {
-  let posts = getBlogPosts();
+  let projects = getProjects();
 
-  return posts.map((post) => ({
-    slug: post.slug,
+  return projects.map((projects) => ({
+    slug: projects.slug,
   }));
 }
 
 export function generateMetadata({ params }) {
-  let post = getBlogPosts().find((post) => post.slug === params.slug);
-  if (!post) {
+  let project = getProjects().find((post) => post.slug === params.slug);
+  if (!project) {
     return;
   }
 
   let {
     title,
     publishedAt: publishedTime,
-    summary: description,
+    description,
     image,
-  } = post.metadata;
+  } = project.metadata;
   let ogImage = image
     ? image
     : `${baseUrl}/og?title=${encodeURIComponent(title)}`;
@@ -35,7 +35,7 @@ export function generateMetadata({ params }) {
       description,
       type: "article",
       publishedTime,
-      url: `${baseUrl}/blog/${post.slug}`,
+      url: `${baseUrl}/blog/${project.slug}`,
       images: [
         {
           url: ogImage,

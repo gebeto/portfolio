@@ -38,7 +38,7 @@ export default function Page() {
         <h1 className="mb-6 text-2xl font-semibold tracking-tighter">
           Projects
         </h1>
-        <Projects />
+        <Projects limit={6} />
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import { getProjects, ProjectMetadata } from "app/blog/utils";
+import { getProjects, ProjectMetadata } from "app/utils";
 
 const spanClass = {
   1: "col-span-1",
@@ -126,13 +126,19 @@ function Project(props: { slug: string; project: ProjectMetadata }) {
   return <span>Unknown</span>;
 }
 
-export function Projects() {
-  const allProjects = getProjects();
+export function Projects({ limit = 0 }: { limit: number }) {
+  const _allProjects = getProjects();
+
+  const limitedProjects = React.useMemo(() => {
+    if (limit) {
+      return _allProjects.slice(0, limit);
+    }
+    return _allProjects;
+  }, [limit]);
 
   return (
     <div className="grid grid-cols-6 gap-4 -mx-20">
-      {allProjects
-        .slice(0, 6)
+      {limitedProjects
         .sort((a, b) => {
           if (
             new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)
@@ -148,7 +154,7 @@ export function Projects() {
             project={projects.metadata}
           />
         ))}
-      <ViewMore />
+      {limit > 0 && <ViewMore />}
     </div>
   );
 }

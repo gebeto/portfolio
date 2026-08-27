@@ -1,4 +1,4 @@
-import { getProjects } from "app/blog/utils";
+import { getProjects } from "app/utils";
 import fs from "fs";
 import path from "path";
 
