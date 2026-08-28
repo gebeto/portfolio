@@ -1,0 +1,10 @@
+.parent-appear-transition .parent-appear-transition-child {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 350ms;
+  cursor: pointer;
+}
+
+.parent-appear-transition.open .parent-appear-transition-child {
+  grid-template-rows: 1fr;
+}
