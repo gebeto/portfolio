@@ -2,7 +2,7 @@ import { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "export",
-  basePath: "/portfolio",
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH,
   images: {
     unoptimized: true,
   },
