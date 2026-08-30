@@ -8,6 +8,7 @@ export async function generateStaticParams() {
 
   return posts.map((post) => ({
     slug: post.slug,
+    metadata: post.metadata,
   }));
 }
 
@@ -51,8 +52,10 @@ export function generateMetadata({ params }) {
   };
 }
 
-export default function Blog({ params }) {
-  let post = getBlogPosts().find((post) => post.slug === params.slug);
+export default async function Blog(props: any) {
+  const params = await props.params;
+  const ports = getBlogPosts();
+  const post = getBlogPosts().find((post) => post.slug === params.slug);
 
   if (!post) {
     notFound();
