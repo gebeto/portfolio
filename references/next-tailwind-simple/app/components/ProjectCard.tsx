@@ -3,6 +3,7 @@
 import React from "react";
 import { ProjectMetadata } from "app/utils";
 import { CollapsibleCard } from "./CollapsibleCard";
+import Image from "next/image";
 
 const spanClass = {
   1: "col-span-1",
@@ -20,13 +21,15 @@ const SmallCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
   slug,
   project,
 }) => {
+  const imageSrc = `content/${slug}/images/${project.image}`;
+
   return (
     <a
       href={project.link}
       className={`${baseCardStyles} group relative overflow-hidden shadow-md transition-shadow duration-200 hover:shadow-lg`}
     >
-      <img
-        src={`/content/${slug}/images/${project.image}`}
+      <Image
+        src={imageSrc}
         alt="Product"
         className="h-48 w-full object-contain object-right-bottom"
       />
@@ -46,14 +49,14 @@ const WideCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
   slug,
   project,
 }) => {
-  const imageSrc = `/content/${slug}/images/${project.image}`;
+  const imageSrc = `content/${slug}/images/${project.image}`;
 
   return (
     <a
       href={project.link}
       className={`${baseCardStyles} group relative overflow-hidden shadow-md transition-shadow duration-200 hover:shadow-lg`}
     >
-      <img
+      <Image
         src={imageSrc}
         alt="Product"
         className="h-48 w-full object-contain object-right-bottom"
@@ -74,14 +77,15 @@ const WideCardIcon: React.FC<{ slug: string; project: ProjectMetadata }> = ({
   slug,
   project,
 }) => {
-  const imageSrc = `/content/${slug}/images/${project.image}`;
+  const imageSrc = `content/${slug}/images/${project.image}`;
+
   return (
     <a
       href={project.link}
       className={`${baseCardStyles} flex overflow-hidden group`}
     >
       <div className="p-3 flex items-center">
-        <img width="48" height="48" src={imageSrc} />
+        <Image alt="icon" width="48" height="48" src={imageSrc} />
       </div>
       <div className="px-4 flex flex-col justify-center leading-normal p-2">
         <div>
