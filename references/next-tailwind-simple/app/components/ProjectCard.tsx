@@ -28,7 +28,7 @@ const SmallCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
       href={project.link}
       className={`${baseCardStyles} group relative overflow-hidden shadow-md transition-shadow duration-200 hover:shadow-lg`}
     >
-      <Image
+      <img
         src={imageSrc}
         alt="Product"
         className="h-48 w-full object-contain object-right-bottom"
@@ -56,7 +56,7 @@ const WideCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
       href={project.link}
       className={`${baseCardStyles} group relative overflow-hidden shadow-md transition-shadow duration-200 hover:shadow-lg`}
     >
-      <Image
+      <img
         src={imageSrc}
         alt="Product"
         className="h-48 w-full object-contain object-right-bottom"
@@ -85,7 +85,7 @@ const WideCardIcon: React.FC<{ slug: string; project: ProjectMetadata }> = ({
       className={`${baseCardStyles} flex overflow-hidden group`}
     >
       <div className="p-3 flex items-center">
-        <Image alt="icon" width="48" height="48" src={imageSrc} />
+        <img alt="icon" width="48" height="48" src={imageSrc} />
       </div>
       <div className="px-4 flex flex-col justify-center leading-normal p-2">
         <div>
