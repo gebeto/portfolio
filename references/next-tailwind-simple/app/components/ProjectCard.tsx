@@ -20,7 +20,7 @@ const SmallCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
   return (
     <a
       href={project.link}
-      className={`group relative bg-gray-950 border border-gray-900 max-w-sm overflow-hidden rounded-lg shadow-md transition-shadow duration-200 hover:shadow-lg w-full ${spanClass[project.layoutSpan || 2]}`}
+      className={`group relative bg-white/[0.04] border border-white/[0.08] max-w-sm overflow-hidden rounded-lg shadow-md transition-shadow duration-200 hover:shadow-lg w-full ${spanClass[project.layoutSpan || 2]}`}
     >
       <img
         // src="https://picsum.photos/seed/picsum/300/200"
@@ -28,7 +28,7 @@ const SmallCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
         alt="Product"
         className="h-48 w-full object-contain object-right-bottom"
       />
-      <div className="absolute inset-0 bg-black/60 p-6 transition duration-350 opacity-0 group-hover:opacity-100">
+      <div className="absolute inset-0 bg-black/[0.6] p-6 transition duration-350 opacity-0 group-hover:opacity-100">
         <h3 className="text-lg font-semibold text-white transition duration-350 -translate-y-1 group-hover:translate-y-0 -rotate-z-5 group-hover:rotate-z-0">
           {project.title}
         </h3>
@@ -53,14 +53,14 @@ const WideCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
   return (
     <a
       href={project.link}
-      className={`group bg-gray-950 border border-gray-900 relative max-w-full overflow-hidden rounded-lg shadow-md transition-shadow duration-200 hover:shadow-lg  w-full ${spanClass[project.layoutSpan || 4]}`}
+      className={`group bg-white/[0.04] border border-white/[0.08] relative max-w-full overflow-hidden rounded-lg shadow-md transition-shadow duration-200 hover:shadow-lg  w-full ${spanClass[project.layoutSpan || 4]}`}
     >
       <img
         src={imageSrc}
         alt="Product"
         className="h-48 w-full object-contain object-right-bottom"
       />
-      <div className="absolute inset-0 p-6 bg-transparent transition duration-350 group-hover:bg-gray-950/50">
+      <div className="absolute inset-0 p-6 bg-transparent transition duration-350 group-hover:bg-black/[0.3]">
         <h3 className="text-lg font-semibold text-white transition duration-350 -translate-y-1 group-hover:translate-y-0">
           {project.title}
         </h3>
@@ -80,12 +80,12 @@ const WideCardIcon: React.FC<{ slug: string; project: ProjectMetadata }> = ({
   return (
     <a
       href={project.link}
-      className={`bg-gray-950 border border-gray-900 w-full max-w-full flex ${spanClass[project.layoutSpan || 2]} rounded-xl overflow-hidden group`}
+      className={`bg-white/[0.04] border border-white/[0.08] w-full max-w-full flex ${spanClass[project.layoutSpan || 2]} rounded-xl overflow-hidden group`}
     >
       <div className="p-3 flex items-center">
         <img width="48" height="48" src={imageSrc} />
       </div>
-      <div className="bg-gray-950 px-4 flex flex-col justify-center leading-normal p-2">
+      <div className="px-4 flex flex-col justify-center leading-normal p-2">
         <div>
           <div className="text-gray-200 font-bold text-xl transition duration-350 translate-y-4 group-hover:translate-y-0">
             {project.title}
