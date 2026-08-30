@@ -12,7 +12,7 @@ concurrency:
 defaults:
   run:
     shell: bash
-    working-directory: ./references/next-tailwind-sample
+    working-directory: references/next-tailwind-simple
 
 
 jobs:
