@@ -30,7 +30,7 @@ jobs:
         run: npm install
 
       - name: Build
-        run: npm run build
+        run: NEXT_PUBLIC_BASE_PATH=/portfolio npm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
