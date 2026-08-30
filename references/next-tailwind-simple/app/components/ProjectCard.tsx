@@ -13,7 +13,8 @@ const spanClass = {
   6: "col-span-6",
 };
 
-const baseCardStyles = "bg-white/[0.04] border border-white/[0.08] rounded-lg";
+const baseCardStyles =
+  "flex h-full bg-white/[0.04] border border-white/[0.08] rounded-lg w-full max-w-full";
 
 const SmallCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
   slug,
@@ -22,7 +23,7 @@ const SmallCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
   return (
     <a
       href={project.link}
-      className={`group relative ${baseCardStyles} max-w-sm overflow-hidden shadow-md transition-shadow duration-200 hover:shadow-lg w-full ${spanClass[project.layoutSpan || 2]}`}
+      className={`${baseCardStyles} group relative overflow-hidden shadow-md transition-shadow duration-200 hover:shadow-lg`}
     >
       <img
         src={`/content/${slug}/images/${project.image}`}
@@ -50,7 +51,7 @@ const WideCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
   return (
     <a
       href={project.link}
-      className={`group ${baseCardStyles} relative max-w-full overflow-hidden shadow-md transition-shadow duration-200 hover:shadow-lg  w-full ${spanClass[project.layoutSpan || 4]}`}
+      className={`${baseCardStyles} group relative overflow-hidden shadow-md transition-shadow duration-200 hover:shadow-lg`}
     >
       <img
         src={imageSrc}
@@ -77,7 +78,7 @@ const WideCardIcon: React.FC<{ slug: string; project: ProjectMetadata }> = ({
   return (
     <a
       href={project.link}
-      className={`${baseCardStyles} w-full max-w-full flex ${spanClass[project.layoutSpan || 2]} overflow-hidden group`}
+      className={`${baseCardStyles} flex overflow-hidden group`}
     >
       <div className="p-3 flex items-center">
         <img width="48" height="48" src={imageSrc} />
@@ -115,6 +116,23 @@ export const ViewMore = () => (
   </div>
 );
 
+const ProjectLayoutItem: React.FC<{
+  children: React.ReactNode;
+  project: ProjectMetadata;
+}> = ({ children, project }) => {
+  const defaultSpan = {
+    small: 2,
+    wide: 4,
+    wide_icon: 2,
+  }[project.cardType];
+
+  return (
+    <div className={`${spanClass[project.layoutSpan || defaultSpan]}`}>
+      {children}
+    </div>
+  );
+};
+
 export function Project(props: { slug: string; project: ProjectMetadata }) {
   const collapsibleCard = false;
 
@@ -125,7 +143,11 @@ export function Project(props: { slug: string; project: ProjectMetadata }) {
   const ProjectCard = cardsMap[props.project.cardType];
 
   if (ProjectCard) {
-    return <ProjectCard {...props} />;
+    return (
+      <ProjectLayoutItem project={props.project}>
+        <ProjectCard {...props} />
+      </ProjectLayoutItem>
+    );
   }
 
   return <span>Unknown</span>;
