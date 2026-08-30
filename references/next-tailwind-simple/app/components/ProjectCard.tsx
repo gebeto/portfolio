@@ -13,6 +13,8 @@ const spanClass = {
   6: "col-span-6",
 };
 
+const baseCardStyles = "bg-white/[0.04] border border-white/[0.08] rounded-lg";
+
 const SmallCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
   slug,
   project,
@@ -20,10 +22,9 @@ const SmallCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
   return (
     <a
       href={project.link}
-      className={`group relative bg-white/[0.04] border border-white/[0.08] max-w-sm overflow-hidden rounded-lg shadow-md transition-shadow duration-200 hover:shadow-lg w-full ${spanClass[project.layoutSpan || 2]}`}
+      className={`group relative ${baseCardStyles} max-w-sm overflow-hidden shadow-md transition-shadow duration-200 hover:shadow-lg w-full ${spanClass[project.layoutSpan || 2]}`}
     >
       <img
-        // src="https://picsum.photos/seed/picsum/300/200"
         src={`/content/${slug}/images/${project.image}`}
         alt="Product"
         className="h-48 w-full object-contain object-right-bottom"
@@ -35,14 +36,10 @@ const SmallCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
         <p className="text-white text-sm transition duration-350 translate-y-2 group-hover:translate-y-0 rotate-z-5 group-hover:rotate-z-0">
           {project.description}
         </p>
-        {/* <div className="text-xl font-bold text-white">$29.99</div> */}
       </div>
     </a>
   );
 };
-
-// TODO: add more card styles
-// TODO: add layout property into projects
 
 const WideCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
   slug,
@@ -53,7 +50,7 @@ const WideCard: React.FC<{ slug: string; project: ProjectMetadata }> = ({
   return (
     <a
       href={project.link}
-      className={`group bg-white/[0.04] border border-white/[0.08] relative max-w-full overflow-hidden rounded-lg shadow-md transition-shadow duration-200 hover:shadow-lg  w-full ${spanClass[project.layoutSpan || 4]}`}
+      className={`group ${baseCardStyles} relative max-w-full overflow-hidden shadow-md transition-shadow duration-200 hover:shadow-lg  w-full ${spanClass[project.layoutSpan || 4]}`}
     >
       <img
         src={imageSrc}
@@ -80,7 +77,7 @@ const WideCardIcon: React.FC<{ slug: string; project: ProjectMetadata }> = ({
   return (
     <a
       href={project.link}
-      className={`bg-white/[0.04] border border-white/[0.08] w-full max-w-full flex ${spanClass[project.layoutSpan || 2]} rounded-xl overflow-hidden group`}
+      className={`${baseCardStyles} w-full max-w-full flex ${spanClass[project.layoutSpan || 2]} overflow-hidden group`}
     >
       <div className="p-3 flex items-center">
         <img width="48" height="48" src={imageSrc} />
