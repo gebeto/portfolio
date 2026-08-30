@@ -27,12 +27,13 @@ jobs:
 
       - uses: pnpm/setup@v1
         with:
+          cwd: references/next-tailwind-simple
           version: 11
           runtime: node@22
 
 
-      - name: Install dependencies
-        run: pnpm install
+      # - name: Install dependencies
+      #   run: pnpm install
 
       - name: Build
         run: pnpm run build
