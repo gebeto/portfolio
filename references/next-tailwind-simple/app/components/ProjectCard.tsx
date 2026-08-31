@@ -109,18 +109,35 @@ const cardsMap = {
   wide_icon: WideCardIcon,
 };
 
-export const ViewMore = () => (
-  <div className="flex flex-col items-center justify-center text-center py-4 col-span-2">
-    <div className="text-lg font-bold text-gray-50">Want to see more?</div>
-    <div className="text-gray-200">Explore more of my work</div>
-    <a
-      className="mt-3 bg-gray-800 hover:bg-gray-700 text-gray-100 py-1 px-6 rounded-md"
-      href="/projects"
-    >
-      View all
-    </a>
-  </div>
-);
+export const ViewMore = () => {
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return (
+      <div className="flex flex-col items-center justify-center text-center pt-2 col-span-6">
+        <div className="text-lg font-bold text-gray-50">Want to see more?</div>
+        <a
+          className="mt-3 bg-gray-800 hover:bg-gray-700 text-gray-100 py-1 px-6 rounded-md"
+          href="/projects"
+        >
+          View all
+        </a>
+      </div>
+    );
+  }
+  return (
+    <div className="flex flex-col items-center justify-center text-center py-4 col-span-2">
+      <div className="text-lg font-bold text-gray-50">Want to see more?</div>
+      <div className="text-gray-200">Explore more of my work</div>
+      <a
+        className="mt-3 bg-gray-800 hover:bg-gray-700 text-gray-100 py-1 px-6 rounded-md"
+        href="/projects"
+      >
+        View all
+      </a>
+    </div>
+  );
+};
 
 const ProjectLayoutItem: React.FC<{
   children: React.ReactNode;
