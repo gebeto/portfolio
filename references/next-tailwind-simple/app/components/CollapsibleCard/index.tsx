@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { ProjectMetadata } from "app/utils";
+import { ProjectMetadata } from "app/types";
 import "./styles.css";
 
 export const CollapsibleCard: React.FC<{
@@ -27,10 +27,10 @@ export const CollapsibleCard: React.FC<{
         </div>
         <div className="bg-gray-950 px-4 flex flex-col justify-center leading-normal p-2">
           <div>
-            <div className="text-gray-200 font-bold text-xl transition duration-350 translate-y-2 group-hover:translate-y-0">
+            <div className="text-gray-200 font-bold text-xl">
               {project.title}
             </div>
-            <p className="text-gray-300 text-base text-xs opacity-0 transition duration-350 translate-y-2 group-hover:translate-y-0 group-hover:opacity-100 rotate-z-3 group-hover:rotate-z-0">
+            <p className="text-gray-300 text-base text-xs">
               {project.description}
             </p>
           </div>

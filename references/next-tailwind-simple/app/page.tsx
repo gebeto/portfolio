@@ -3,6 +3,8 @@ import { Projects } from "./components/Projects";
 import Image from "next/image";
 import avatarJpg from "./avatar.jpg";
 
+// TODO: setup containers for each section instead of using minus margin
+
 export default function Page() {
   return (
     <section>

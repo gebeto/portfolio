@@ -1,26 +1,13 @@
 import fs from "fs";
 import path from "path";
+import {
+  BlogPostMetadata,
+  MDXMetadata,
+  MDXResource,
+  ProjectMetadata,
+} from "./types";
 
-export type BlogPostMetadata = {
-  title: string;
-  publishedAt: string;
-  summary: string;
-  image?: string;
-};
-
-export type ProjectMetadata = {
-  title: string;
-  publishedAt: string;
-  link: string;
-  description?: string;
-  image?: string;
-  cardType: "small" | "wide";
-  layoutSpan: string;
-};
-
-type Metadata = BlogPostMetadata | ProjectMetadata;
-
-function parseFrontmatter<T extends Metadata>(fileContent: string) {
+function parseFrontmatter<T extends MDXMetadata>(fileContent: string) {
   let frontmatterRegex = /---\s*([\s\S]*?)\s*---/;
   let match = frontmatterRegex.exec(fileContent);
   let frontMatterBlock = match![1];
@@ -49,12 +36,12 @@ function getMDXFiles(dir: string) {
   return files;
 }
 
-function readMDXFile<T extends Metadata>(filePath: string) {
+function readMDXFile<T extends MDXMetadata>(filePath: string) {
   let rawContent = fs.readFileSync(filePath, "utf-8");
   return parseFrontmatter<T>(rawContent);
 }
 
-function getMDXData<T extends Metadata>(dir: string) {
+function getMDXData<T extends MDXMetadata>(dir: string): MDXResource<T>[] {
   let mdxFiles = getMDXFiles(dir);
   return mdxFiles.map((file) => {
     let { metadata, content } = readMDXFile<T>(path.join(file));

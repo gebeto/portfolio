@@ -1,7 +1,6 @@
-import Link from "next/link";
 import React from "react";
-import { getProjects, ProjectMetadata } from "app/utils";
-import { Project, ViewMore } from "./ProjectCard";
+import { getProjects } from "app/utils";
+import { ProjectsGrid } from "./ProjectsGrid";
 
 export function Projects({ limit = 0 }: { limit: number }) {
   const _allProjects = getProjects();
@@ -13,25 +12,5 @@ export function Projects({ limit = 0 }: { limit: number }) {
     return _allProjects;
   }, [limit]);
 
-  return (
-    <div className="grid grid-cols-6 gap-4 -mx-20">
-      {limitedProjects
-        .sort((a, b) => {
-          if (
-            new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)
-          ) {
-            return -1;
-          }
-          return 1;
-        })
-        .map((projects) => (
-          <Project
-            key={projects.slug}
-            slug={projects.slug}
-            project={projects.metadata}
-          />
-        ))}
-      {limit > 0 && <ViewMore />}
-    </div>
-  );
+  return <ProjectsGrid projects={limitedProjects} showViewMore={limit > 0} />;
 }

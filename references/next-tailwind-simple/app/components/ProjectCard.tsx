@@ -1,9 +1,11 @@
 "use client";
 
 import React from "react";
-import { ProjectMetadata } from "app/utils";
+import { ProjectMetadata } from "app/types";
 import { CollapsibleCard } from "./CollapsibleCard";
-import Image from "next/image";
+
+import { useMediaQuery } from "@reactuses/core";
+import { useIsMobile } from "./utils";
 
 const spanClass = {
   1: "col-span-1",
@@ -138,10 +140,14 @@ const ProjectLayoutItem: React.FC<{
 };
 
 export function Project(props: { slug: string; project: ProjectMetadata }) {
-  const collapsibleCard = false;
+  const collapsibleCard = useIsMobile();
 
   if (collapsibleCard) {
-    return <CollapsibleCard {...props} />;
+    return (
+      <div className="col-span-6">
+        <CollapsibleCard {...props} />
+      </div>
+    );
   }
 
   const ProjectCard = cardsMap[props.project.cardType];

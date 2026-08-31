@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@reactuses/core": "^6.5.5",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "20.11.17",
     "@types/react": "18.2.55",
