@@ -9,7 +9,7 @@ export const CollapsibleCard: React.FC<{
   project: ProjectMetadata;
 }> = ({ slug, project }) => {
   const [open, setOpen] = React.useState<boolean>(false);
-  const imageSrc = `/content/${slug}/images/${project.image}`;
+  const imageSrc = `content/${slug}/images/${project.image}`;
 
   return (
     <div
