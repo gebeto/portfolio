@@ -7,9 +7,9 @@ export type BlogPostMetadata = {
 
 export type ProjectMetadata = {
   title: string;
-  publishedAt: string;
-  link: string;
+  date: string;
   description?: string;
+  link: string;
   image?: string;
   cardType: "small" | "wide";
   layoutSpan: string;

@@ -5,23 +5,17 @@ import { formatDate, getBlogPosts, getProjects, baseUrl } from "app/utils";
 export async function generateStaticParams() {
   let projects = getProjects();
 
-  return projects.map((projects) => ({
-    slug: projects.slug,
-  }));
+  return projects;
 }
 
-export function generateMetadata({ params }) {
-  let project = getProjects().find((post) => post.slug === params.slug);
+export async function generateMetadata(props: PageProps<"/projects/[slug]">) {
+  const params = await props.params;
+  let project = getProjects().find((project) => project.slug === params.slug);
   if (!project) {
     return;
   }
 
-  let {
-    title,
-    publishedAt: publishedTime,
-    description,
-    image,
-  } = project.metadata;
+  let { title, date: publishedTime, description, image } = project.metadata;
   let ogImage = image
     ? image
     : `${baseUrl}/og?title=${encodeURIComponent(title)}`;
@@ -34,7 +28,7 @@ export function generateMetadata({ params }) {
       description,
       type: "article",
       publishedTime,
-      url: `${baseUrl}/blog/${project.slug}`,
+      url: `${baseUrl}/projects/${project.slug}`,
       images: [
         {
           url: ogImage,
@@ -50,10 +44,14 @@ export function generateMetadata({ params }) {
   };
 }
 
-export default function Blog({ params }) {
-  let post = getBlogPosts().find((post) => post.slug === params.slug);
+// export default async function Project(props: {
+//   params: Promise<{ slug: string }>;
+// }) {
+export default async function Project(props: PageProps<"/projects/[slug]">) {
+  const params = await props.params;
+  let project = getProjects().find((project) => project.slug === params.slug);
 
-  if (!post) {
+  if (!project) {
     notFound();
   }
 
@@ -66,14 +64,14 @@ export default function Blog({ params }) {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "BlogPosting",
-            headline: post.metadata.title,
-            datePublished: post.metadata.publishedAt,
-            dateModified: post.metadata.publishedAt,
-            description: post.metadata.summary,
-            image: post.metadata.image
-              ? `${baseUrl}${post.metadata.image}`
-              : `/og?title=${encodeURIComponent(post.metadata.title)}`,
-            url: `${baseUrl}/blog/${post.slug}`,
+            headline: project.metadata.title,
+            datePublished: project.metadata.date,
+            dateModified: project.metadata.date,
+            description: project.metadata.description,
+            image: project.metadata.image
+              ? `${baseUrl}${project.metadata.image}`
+              : `/og?title=${encodeURIComponent(project.metadata.title)}`,
+            url: `${baseUrl}/projects/${project.slug}`,
             author: {
               "@type": "Person",
               name: "My Portfolio",
@@ -82,15 +80,15 @@ export default function Blog({ params }) {
         }}
       />
       <h1 className="title font-semibold text-2xl tracking-tighter">
-        {post.metadata.title}
+        {project.metadata.title}
       </h1>
       <div className="flex justify-between items-center mt-2 mb-8 text-sm">
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
-          {formatDate(post.metadata.publishedAt)}
+          {formatDate(project.metadata.date)}
         </p>
       </div>
       <article className="prose">
-        <CustomMDX source={post.content} />
+        <CustomMDX source={project.content} />
       </article>
     </section>
   );
