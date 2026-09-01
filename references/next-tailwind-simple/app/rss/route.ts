@@ -1,5 +1,8 @@
-import { baseUrl } from "app/_sitemap";
-import { getBlogPosts } from "app/utils";
+import { getBlogPosts, baseUrl } from "app/utils";
+
+export async function generateStaticParams() {
+  return getBlogPosts();
+}
 
 export async function GET() {
   let allBlogs = await getBlogPosts();

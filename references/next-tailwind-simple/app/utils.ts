@@ -7,6 +7,8 @@ import {
   ProjectMetadata,
 } from "./types";
 
+export const baseUrl = "https://gebeto.github.io/portfolio";
+
 function parseFrontmatter<T extends MDXMetadata>(fileContent: string) {
   let frontmatterRegex = /---\s*([\s\S]*?)\s*---/;
   let match = frontmatterRegex.exec(fileContent);
