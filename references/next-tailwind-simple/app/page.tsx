@@ -31,7 +31,7 @@ export default function Page() {
 
       <div className="mb-24">
         <h1 className="mb-8 text-2xl font-semibold tracking-tighter">
-          Blog posts
+          Thoughts
         </h1>
         <BlogPosts />
       </div>
