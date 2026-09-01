@@ -11,19 +11,15 @@ export function ProjectsGrid({
   projects: MDXResource<ProjectMetadata>[];
   showViewMore: boolean;
 }) {
-  const isMobile = useIsMobile();
-
-  const responsiveClassName = isMobile ? "" : "-mx-20";
-
   return (
-    <div className={`grid grid-cols-6 gap-4 ${responsiveClassName}`}>
+    <div className="grid grid-cols-6 gap-4">
       {projects
-        .sort((a, b) => {
-          if (new Date(a.metadata.date) > new Date(b.metadata.date)) {
-            return -1;
-          }
-          return 1;
-        })
+        // .sort((a, b) => {
+        //   if (new Date(a.metadata.date) > new Date(b.metadata.date)) {
+        //     return -1;
+        //   }
+        //   return 1;
+        // })
         .map((projects) => (
           <Project
             key={projects.slug}

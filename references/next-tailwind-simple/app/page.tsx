@@ -3,12 +3,10 @@ import { Projects } from "./components/Projects";
 import Image from "next/image";
 import avatarJpg from "./avatar.jpg";
 
-// TODO: setup containers for each section instead of using minus margin
-
 export default function Page() {
   return (
     <section>
-      <div>
+      <div className="w-section">
         <Image
           alt="avatar"
           src={avatarJpg}
@@ -16,11 +14,11 @@ export default function Page() {
           className="rounded-full mb-2"
         />
       </div>
-      <h1 className="mb-8 text-2xl font-semibold tracking-tighter">
+      <h1 className="w-section mb-8 text-2xl font-semibold tracking-tighter">
         Yaroslav <br />
         Nychkalo
       </h1>
-      <p className="mb-20">
+      <p className="w-section mb-20">
         I'm a Yaroslav, enthusiast and tab advocate, finding unmatched
         efficiency in Vim's keystroke commands and tabs' flexibility for
         personal viewing preferences. This extends to my support for static
@@ -29,17 +27,17 @@ export default function Page() {
         eye strain.
       </p>
 
-      <div className="mb-24">
-        <h1 className="mb-8 text-2xl font-semibold tracking-tighter">
-          Thoughts
-        </h1>
+      <h1 className="w-section mb-8 text-2xl font-semibold tracking-tighter">
+        Thoughts
+      </h1>
+      <div className="w-section mb-24">
         <Thoughts />
       </div>
 
-      <div className="mb-30">
-        <h1 className="mb-6 text-2xl font-semibold tracking-tighter">
-          Projects
-        </h1>
+      <h1 className=" w-section mb-6 text-2xl font-semibold tracking-tighter">
+        Projects
+      </h1>
+      <div className="w-section-wide mb-30">
         <Projects limit={6} />
       </div>
     </section>

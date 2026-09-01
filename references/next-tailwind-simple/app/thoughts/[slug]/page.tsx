@@ -61,7 +61,7 @@ export default async function Thought(props: any) {
   }
 
   return (
-    <section>
+    <section className="w-section">
       <script
         type="application/ld+json"
         suppressHydrationWarning

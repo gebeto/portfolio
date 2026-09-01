@@ -56,7 +56,7 @@ export default async function Project(props: PageProps<"/projects/[slug]">) {
   }
 
   return (
-    <section>
+    <section className="w-section">
       <script
         type="application/ld+json"
         suppressHydrationWarning
