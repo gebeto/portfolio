@@ -51,7 +51,7 @@ export function generateMetadata({ params }) {
   };
 }
 
-export default async function Blog(props: any) {
+export default async function Thought(props: any) {
   const params = await props.params;
   const ports = getThoughts();
   const post = getThoughts().find((post) => post.slug === params.slug);

@@ -5,9 +5,9 @@ export async function generateStaticParams() {
 }
 
 export async function GET() {
-  let allBlogs = await getThoughts();
+  let allThoughts = await getThoughts();
 
-  const itemsXml = allBlogs
+  const itemsXml = allThoughts
     .sort((a, b) => {
       if (new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)) {
         return -1;

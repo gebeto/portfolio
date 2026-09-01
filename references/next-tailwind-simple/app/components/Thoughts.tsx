@@ -2,11 +2,11 @@ import Link from "next/link";
 import { formatDate, getThoughts } from "app/utils";
 
 export function Thoughts() {
-  let allBlogs = getThoughts();
+  let allThoughts = getThoughts();
 
   return (
     <div className="flex flex-col gap-4">
-      {allBlogs
+      {allThoughts
         .sort((a, b) => {
           if (
             new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)
