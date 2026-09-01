@@ -4,7 +4,6 @@ import React from "react";
 import { ProjectMetadata } from "app/types";
 import { CollapsibleCard } from "./CollapsibleCard";
 
-import { useMediaQuery } from "@reactuses/core";
 import { useIsMobile } from "./utils";
 
 const spanClass = {

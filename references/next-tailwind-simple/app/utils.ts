@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import yaml from "yaml";
 import {
   ThoughtsMetadata,
   MDXMetadata,
@@ -9,22 +10,18 @@ import {
 
 export const baseUrl = "https://gebeto.github.io/portfolio";
 
-function parseFrontmatter<T extends MDXMetadata>(fileContent: string) {
+function parseFrontmatter<T extends MDXMetadata>(
+  fileContent: string,
+): Pick<MDXResource<T>, "metadata" | "content"> {
   let frontmatterRegex = /---\s*([\s\S]*?)\s*---/;
   let match = frontmatterRegex.exec(fileContent);
   let frontMatterBlock = match![1];
   let content = fileContent.replace(frontmatterRegex, "").trim();
-  let frontMatterLines = frontMatterBlock.trim().split("\n");
-  let metadata: Partial<T> = {};
-
-  frontMatterLines.forEach((line) => {
-    let [key, ...valueArr] = line.split(": ");
-    let value = valueArr.join(": ").trim();
-    value = value.replace(/^['"](.*)['"]$/, "$1"); // Remove quotes
-    metadata[key.trim()] = value;
-  });
-
-  return { metadata: metadata as T, content };
+  let metadata: Partial<T> = yaml.parse(frontMatterBlock.trim());
+  return {
+    metadata: metadata as T,
+    content,
+  };
 }
 
 function getMDXFiles(dir: string) {
@@ -51,8 +48,8 @@ function getMDXData<T extends MDXMetadata>(dir: string): MDXResource<T>[] {
 
     return {
       metadata,
-      slug,
       content,
+      slug,
     };
   });
 }

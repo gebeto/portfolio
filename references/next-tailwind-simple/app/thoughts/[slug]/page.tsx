@@ -11,7 +11,8 @@ export async function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params }) {
+export async function generateMetadata(props: PageProps<"/projects/[slug]">) {
+  const params = await props.params;
   let post = getThoughts().find((post) => post.slug === params.slug);
   if (!post) {
     return;
@@ -51,7 +52,7 @@ export function generateMetadata({ params }) {
   };
 }
 
-export default async function Thought(props: any) {
+export default async function Thought(props: PageProps<"/thoughts/[slug]">) {
   const params = await props.params;
   const ports = getThoughts();
   const post = getThoughts().find((post) => post.slug === params.slug);
