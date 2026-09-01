@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import {
-  BlogPostMetadata,
+  ThoughtsMetadata,
   MDXMetadata,
   MDXResource,
   ProjectMetadata,
@@ -57,8 +57,8 @@ function getMDXData<T extends MDXMetadata>(dir: string): MDXResource<T>[] {
   });
 }
 
-export function getBlogPosts() {
-  return getMDXData<BlogPostMetadata>(
+export function getThoughts() {
+  return getMDXData<ThoughtsMetadata>(
     path.join(process.cwd(), "content", "posts"),
   );
 }

@@ -1,4 +1,4 @@
-import { BlogPosts } from "app/components/BlogPosts";
+import { Thoughts } from "app/components/Thoughts";
 import { Projects } from "./components/Projects";
 import Image from "next/image";
 import avatarJpg from "./avatar.jpg";
@@ -33,7 +33,7 @@ export default function Page() {
         <h1 className="mb-8 text-2xl font-semibold tracking-tighter">
           Thoughts
         </h1>
-        <BlogPosts />
+        <Thoughts />
       </div>
 
       <div className="mb-30">

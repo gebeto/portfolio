@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { formatDate, getBlogPosts } from "app/utils";
+import { formatDate, getThoughts } from "app/utils";
 
-export function BlogPosts() {
-  let allBlogs = getBlogPosts();
+export function Thoughts() {
+  let allBlogs = getThoughts();
 
   return (
     <div className="flex flex-col gap-4">

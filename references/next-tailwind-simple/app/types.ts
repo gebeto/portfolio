@@ -1,4 +1,4 @@
-export type BlogPostMetadata = {
+export type ThoughtsMetadata = {
   title: string;
   publishedAt: string;
   summary: string;
@@ -15,7 +15,7 @@ export type ProjectMetadata = {
   layoutSpan: string;
 };
 
-export type MDXMetadata = BlogPostMetadata | ProjectMetadata;
+export type MDXMetadata = ThoughtsMetadata | ProjectMetadata;
 export type MDXResource<T extends MDXMetadata> = {
   metadata: T;
   slug: string;

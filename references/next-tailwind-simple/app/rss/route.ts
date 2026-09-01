@@ -1,11 +1,11 @@
-import { getBlogPosts, baseUrl } from "app/utils";
+import { getThoughts, baseUrl } from "app/utils";
 
 export async function generateStaticParams() {
-  return getBlogPosts();
+  return getThoughts();
 }
 
 export async function GET() {
-  let allBlogs = await getBlogPosts();
+  let allBlogs = await getThoughts();
 
   const itemsXml = allBlogs
     .sort((a, b) => {
@@ -18,7 +18,7 @@ export async function GET() {
       (post) =>
         `<item>
           <title>${post.metadata.title}</title>
-          <link>${baseUrl}/blog/${post.slug}</link>
+          <link>${baseUrl}/thoughts/${post.slug}</link>
           <description>${post.metadata.summary || ""}</description>
           <pubDate>${new Date(
             post.metadata.publishedAt,
