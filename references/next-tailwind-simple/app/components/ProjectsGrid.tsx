@@ -19,9 +19,7 @@ export function ProjectsGrid({
     <div className={`grid grid-cols-6 gap-4 ${responsiveClassName}`}>
       {projects
         .sort((a, b) => {
-          if (
-            new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)
-          ) {
+          if (new Date(a.metadata.date) > new Date(b.metadata.date)) {
             return -1;
           }
           return 1;
