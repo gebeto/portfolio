@@ -18,13 +18,19 @@ export default function Page() {
         Yaroslav <br />
         Nychkalo
       </h1>
-      <p className="w-section mb-20">
+      {/* <p className="w-section mb-20">
         I'm a Yaroslav, enthusiast and tab advocate, finding unmatched
         efficiency in Vim's keystroke commands and tabs' flexibility for
         personal viewing preferences. This extends to my support for static
         typing, where its early error detection ensures cleaner code, and my
         preference for dark mode, which eases long coding sessions by reducing
         eye strain.
+      </p> */}
+      <p className="w-section mb-20">
+        I am a Full-Stack Software Engineer, love to find simple solutions for
+        hard problems. My passion is to build solid/bulletproof UI that
+        comfortable to use, and backend that never fail down. I'm creating well
+        polished products that works flawlessly
       </p>
 
       <h1 className="w-section mb-8 text-2xl font-semibold tracking-tighter">
