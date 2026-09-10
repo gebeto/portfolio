@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --card: #121212;
+    --card-border: rgba(255,255,255,0.06);
+    --text-primary: #eee;
+    --text-secondary: #6b6b6b;
+    --text-tertiary: #4a4a4a;
+    --accent: #e8481f;
+    --tag-bg: rgba(255,255,255,0.03);
+    --tag-border: rgba(255,255,255,0.08);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'JetBrains Mono', 'IBM Plex Mono', 'Courier New', monospace;
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px;
+  }
+
+  .board {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    max-width: 760px;
+    width: 100%;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 22px 22px 18px;
+  }
+
+  .card-label {
+    color: var(--text-secondary);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    margin-bottom: 18px;
+  }
+
+  /* ---- Projects card ---- */
+  .projects {
+    grid-row: 1 / 3;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project {
+    padding: 14px 0;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .project:first-of-type {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .project-title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 10px;
+    font-size: 15px;
+  }
+
+  .project-index {
+    color: var(--text-tertiary);
+    font-size: 12px;
+    margin-right: 4px;
+  }
+
+  .project-name {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .dot {
+    color: var(--accent);
+    margin: 0 2px;
+  }
+
+  .project-date {
+    color: var(--text-secondary);
+    font-size: 13px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    background: var(--tag-bg);
+    border: 1px solid var(--tag-border);
+    color: var(--text-secondary);
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  /* ---- Tech stack card ---- */
+  .stack-heading {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 40px;
+  }
+
+  .stack-heading .dot { font-size: 20px; }
+
+  .stack .tags { row-gap: 10px; }
+
+  /* ---- Location card ---- */
+  .location-card {
+    position: relative;
+    overflow: hidden;
+    min-height: 210px;
+  }
+
+  .location-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .location-date {
+    color: var(--text-secondary);
+    font-size: 13px;
+    margin-bottom: 14px;
+  }
+
+  .location-time {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .location-time .colon {
+    color: var(--accent);
+  }
+
+  .map-wrap {
+    position: absolute;
+    top: 18px;
+    right: 8px;
+    width: 130px;
+    height: 130px;
+    opacity: 0.9;
+  }
+
+  .map-wrap svg { width: 100%; height: 100%; }
+
+  .timeline {
+    position: absolute;
+    left: 22px;
+    right: 22px;
+    bottom: 18px;
+  }
+
+  .ticks {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 16px;
+    position: relative;
+  }
+
+  .tick {
+    width: 1px;
+    height: 8px;
+    background: rgba(255,255,255,0.15);
+  }
+
+  .tick.now {
+    background: var(--accent);
+    height: 12px;
+    width: 1.5px;
+  }
+
+  .tick-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+    color: var(--text-tertiary);
+    font-size: 11px;
+  }
+
+  @media (max-width: 620px) {
+    .board {
+      grid-template-columns: 1fr;
+    }
+    .projects { grid-row: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="board">
+
+  <!-- Projects -->
+  <div class="card projects">
+    <div class="card-label">Projects</div>
+
+    <div class="project">
+      <div class="project-title-row">
+        <span class="project-index">01</span>
+        <span class="project-name">Metropolitan University</span>
+        <span class="dot">•</span>
+        <span class="project-date">Mar 2024</span>
+      </div>
+      <div class="tags">
+        <span class="tag">React Native</span>
+        <span class="tag">React Native</span>
+        <span class="tag">+4</span>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-title-row">
+        <span class="project-index">02</span>
+        <span class="project-name">Slick.is</span>
+        <span class="dot">•</span>
+        <span class="project-date">Mar 2024</span>
+      </div>
+      <div class="tags">
+        <span class="tag">React Native</span>
+        <span class="tag">C#</span>
+        <span class="tag">+4</span>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-title-row">
+        <span class="project-index">03</span>
+        <span class="project-name">ONX UI Kit</span>
+        <span class="dot">•</span>
+        <span class="project-date">Mar 2024</span>
+      </div>
+      <div class="tags">
+        <span class="tag">React Native</span>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-title-row">
+        <span class="project-index">04</span>
+        <span class="project-name">Tradeful Dashboard</span>
+        <span class="dot">•</span>
+        <span class="project-date">Mar 2024</span>
+      </div>
+      <div class="tags">
+        <span class="tag">C#</span>
+        <span class="tag">C++</span>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-title-row">
+        <span class="project-index">05</span>
+        <span class="project-name">Law Firm "FirmName"</span>
+        <span class="dot">•</span>
+        <span class="project-date">Mar 2024</span>
+      </div>
+      <div class="tags">
+        <span class="tag">React</span>
+        <span class="tag">SQL</span>
+        <span class="tag">C#</span>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-title-row">
+        <span class="project-index">06</span>
+        <span class="project-name">Ghost Teams Dashboard</span>
+        <span class="dot">•</span>
+        <span class="project-date">Mar 2024</span>
+      </div>
+      <div class="tags">
+        <span class="tag">React Native</span>
+        <span class="tag">React</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Tech stack -->
+  <div class="card stack">
+    <div class="card-label">Tech Stack</div>
+    <div class="stack-heading">
+      Front End<span class="dot">•</span>Fullstack<br>
+      Developer
+    </div>
+    <div class="tags">
+      <span class="tag">React Native</span>
+      <span class="tag">Angular</span>
+      <span class="tag">Node</span>
+      <span class="tag">SQL</span>
+      <span class="tag">React Native</span>
+      <span class="tag">Framer</span>
+      <span class="tag">Ruby</span>
+      <span class="tag">C#</span>
+      <span class="tag">C++</span>
+    </div>
+  </div>
+
+  <!-- Location -->
+  <div class="card location-card">
+    <div class="card-label">Location &amp; Timezone</div>
+    <div class="location-title">Niš, Serbia<span class="dot">•</span>CET</div>
+    <div class="location-date">27 April 2024</div>
+    <div class="location-time">15<span class="colon">:</span>39</div>
+
+    <div class="map-wrap">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M70 20 L95 15 L110 25 L120 20 L140 35 L150 30 L165 45 L160 60 L170 75 L160 90 L165 105 L150 115 L155 130 L140 140 L130 155 L115 150 L100 165 L90 155 L75 160 L65 145 L50 140 L45 125 L55 110 L45 95 L55 80 L45 65 L55 50 L50 35 L65 30 Z"
+              stroke="rgba(255,255,255,0.35)" stroke-width="1.2" fill="none" stroke-linejoin="round"/>
+        <circle cx="128" cy="118" r="4" fill="#e8481f"/>
+      </svg>
+    </div>
+
+    <div class="timeline">
+      <div class="ticks">
+        <div class="tick"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div>
+        <div class="tick"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div>
+        <div class="tick now"></div>
+        <div class="tick"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div>
+        <div class="tick"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div>
+      </div>
+      <div class="tick-labels">
+        <span>12</span><span>6</span><span>12</span><span>6</span><span>12</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
