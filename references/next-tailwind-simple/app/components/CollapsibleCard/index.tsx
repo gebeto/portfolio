@@ -13,7 +13,7 @@ export const CollapsibleCard: React.FC<{
 
   return (
     <div
-      className={`bg-gray-950 border border-gray-900 w-full max-w-full flex flex-col col-span-6 rounded-xl overflow-hidden group parent-appear-transition ${open ? "open" : "close"}`}
+      className={`bg-white/[0.04] border border-white/[0.08] w-full max-w-full flex flex-col col-span-6 rounded-xl overflow-hidden group parent-appear-transition ${open ? "open" : "close"}`}
       onClick={() => setOpen(!open)}
     >
       <div className="flex">
@@ -25,7 +25,7 @@ export const CollapsibleCard: React.FC<{
             src={imageSrc}
           />
         </div>
-        <div className="bg-gray-950 px-4 flex flex-col justify-center leading-normal p-2">
+        <div className="px-4 flex flex-col justify-center leading-normal p-2">
           <div>
             <div className="text-gray-200 font-bold text-xl">
               {project.title}
