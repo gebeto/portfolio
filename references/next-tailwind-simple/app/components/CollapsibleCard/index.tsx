@@ -30,25 +30,29 @@ export const CollapsibleCard: React.FC<{
             <div className="text-gray-200 font-bold text-xl">
               {project.title}
             </div>
-            <p className="text-gray-300 text-base text-xs">
-              {project.description}
-            </p>
           </div>
         </div>
       </div>
       <div className="parent-appear-transition-child">
         <div className="overflow-hidden">
-          <p className="mt-2 p-2">{project.description}</p>
-          <a
-            href={project.link}
-            className="inline-flex items-center rounded-md bg-gray-400/10 px-2 py-1 text-xs font-medium text-gray-400 inset-ring inset-ring-gray-400/20"
-          >
-            Link
-          </a>
+          <p className="p-3 pb-0">{project.description}</p>
+          <div className="p-3 flex gap-2">
+            <span className="inline-flex items-center rounded-md bg-gray-400/10 px-2 py-1 text-xs font-medium text-gray-400 inset-ring inset-ring-gray-400/20">
+              #React
+            </span>
+          </div>
+          <div className="p-3 pt-0">
+            <a
+              href={project.link}
+              className="inline-flex items-center rounded-md bg-gray-400/10 px-2 py-1 text-xs font-medium text-gray-400 inset-ring inset-ring-gray-400/20"
+            >
+              Project Link
+            </a>
+          </div>
 
-          <p className="flex justify-end">
+          {/* <p className="flex justify-end">
             <img src={imageSrc} height="100" className="h-100" />
-          </p>
+          </p> */}
         </div>
       </div>
     </div>
